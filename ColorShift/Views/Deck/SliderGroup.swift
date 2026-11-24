@@ -5,6 +5,7 @@ import SwiftUI
 struct SliderGroup: View {
     @Environment(AppModel.self) private var model
     @Environment(\.colorSchemeContrast) private var contrast
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     let role: ColorRole
 
     private var color: SRGB8 { role == .foreground ? model.foreground : model.background }
@@ -14,12 +15,12 @@ struct SliderGroup: View {
         let hsl = color.hsl
         // Rows are 44pt touch targets, which already space them (the web's 10.24pt gap is between 12pt rows).
         VStack(alignment: .leading, spacing: 0) {
-            HStack {
+            AdaptiveStack(spacing: 4) {
                 Text(role == .foreground ? "FG mix" : "BG mix")
                     .typeStyle(Typography.sectionTitle)
                     .foregroundStyle(Tokens.Text.deck.color)
                     .accessibilityAddTraits(.isHeader)
-                Spacer()
+                if !dynamicTypeSize.isAccessibilitySize { Spacer() }
                 Text(verbatim: "\(hsl.h)° · \(hsl.s)% · \(hsl.l)%")
                     .typeStyle(Typography.fieldLabel)
                     .monospacedDigit()
@@ -51,15 +52,17 @@ private struct HSLSlider: View {
     let onChange: (Int) -> Void
 
     @Environment(\.colorSchemeContrast) private var contrast
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     var body: some View {
-        HStack(spacing: 7.2) {
+        // At accessibility sizes the label sits above the track instead of in a 35pt column.
+        AdaptiveStack(spacing: dynamicTypeSize.isAccessibilitySize ? 0 : 7.2) {
             Text(label)
                 .typeStyle(Typography.fieldLabel)
                 .foregroundStyle(Tokens.Text.muted(contrast).color)
-                .frame(width: 35.2, alignment: .leading)
                 .lineLimit(1)
-                .minimumScaleFactor(0.7)
+                .frame(width: dynamicTypeSize.isAccessibilitySize ? nil : 35.2, alignment: .leading)
+                .minimumScaleFactor(dynamicTypeSize.isAccessibilitySize ? 1 : 0.7)
             GeometryReader { proxy in
                 let width = proxy.size.width
                 let x = SliderMath.x(for: value, maximum: maximum, width: width)
@@ -76,13 +79,9 @@ private struct HSLSlider: View {
                 }
                 .frame(maxHeight: .infinity)
                 .contentShape(Rectangle())
-                .gesture(
-                    DragGesture(minimumDistance: 0)
-                        .onChanged { drag in
-                            let next = SliderMath.value(at: drag.location.x, maximum: maximum, width: width)
-                            if next != value { onChange(next) }
-                        }
-                )
+                // Horizontal pans drag the thumb; vertical swipes fall through to the deck's scroll view.
+                .gesture(HorizontalPanGesture { x in set(x: x, width: width) })
+                .onTapGesture(coordinateSpace: .local) { location in set(x: location.x, width: width) }
             }
             .frame(height: Tokens.Size.minHitTarget)
         }
@@ -94,6 +93,11 @@ private struct HSLSlider: View {
             .accessibilityValue("\(value) \(unit)")
         }
         .accessibilityIdentifier("slider.\(accessibilityName)")
+    }
+
+    private func set(x: CGFloat, width: CGFloat) {
+        let next = SliderMath.value(at: x, maximum: maximum, width: width)
+        if next != value { onChange(next) }
     }
 
     private var trackColors: [Color] {

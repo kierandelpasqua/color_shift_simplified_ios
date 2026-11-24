@@ -29,9 +29,7 @@ private struct ExportIcon<Icon: Shape>: View {
     @ViewBuilder let icon: () -> Icon
 
     var body: some View {
-        icon()
-            .stroke(style: StrokeStyle(lineWidth: Tokens.Size.buttonIconStroke, lineCap: .round, lineJoin: .round))
-            .frame(width: Tokens.Size.buttonIcon, height: Tokens.Size.buttonIcon)
+        ScaledIcon(icon: icon())
             .foregroundStyle(Tokens.Text.button.color)
             .padding(.vertical, 8)
             .padding(.horizontal, 9.92)

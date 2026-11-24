@@ -3,13 +3,15 @@ import SwiftUI
 /// The control deck ("mixer drawer") in the web's ≤ 560px single-column order (PM §9, §11; ios.md §8):
 /// topline (identity + export), theme chips, color readout, FG mix, BG mix, contrast.
 struct ControlDeckView: View {
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
                 VStack(alignment: .leading, spacing: 12.8) {
-                    HStack(alignment: .center) {
+                    AdaptiveStack(spacing: 12.8) {
                         IdentityView()
-                        Spacer(minLength: 12.8)
+                        if !dynamicTypeSize.isAccessibilitySize { Spacer(minLength: 0) }
                         ExportActions()
                     }
                     ThemeChips()

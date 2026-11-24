@@ -6,28 +6,38 @@ struct ContrastBlock: View {
     @Environment(AppModel.self) private var model
     /// A jump that couldn't reach its target, shown until the colors change (ios.md §14).
     @State private var miss: (target: Double, pair: ColorPair)?
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     private var pair: ColorPair { ColorPair(background: model.background, foreground: model.foreground) }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            HStack(alignment: .center) {
+            AdaptiveStack(spacing: Tokens.Spacing.xs) {
                 ModeSwitch()
-                Spacer(minLength: Tokens.Spacing.s)
+                if !dynamicTypeSize.isAccessibilitySize { Spacer(minLength: Tokens.Spacing.s) }
                 score
             }
             .padding(.bottom, 19.2 - 11)   // web margin, less the switch's taller hit area
 
             ContrastMeter(ratio: model.wcag, onJump: jump)
 
-            HStack(alignment: .firstTextBaseline, spacing: Tokens.Spacing.s) {
+            if dynamicTypeSize.isAccessibilitySize {
+                // Tick labels collide at these sizes, so they move to a legend row under the meter.
+                HStack(spacing: Tokens.Spacing.m) {
+                    TickLegend(name: "AA", value: "4.5", passes: model.wcag >= ColorMath.aa)
+                    TickLegend(name: "AAA", value: "7", passes: model.wcag >= ColorMath.aaa)
+                }
+                .padding(.bottom, Tokens.Spacing.s)
+            }
+
+            AdaptiveStack(horizontalAlignment: .leading, verticalAlignment: .firstTextBaseline, spacing: Tokens.Spacing.s) {
                 if let miss, miss.pair == pair {
                     Text(miss.target == ColorMath.aaa ? "Can't reach AAA with this hue" : "Can't reach AA with this hue")
                         .typeStyle(Typography.button)
                         .foregroundStyle(Tokens.Text.deck.color)
                         .accessibilityIdentifier("jumpMissMessage")
                 }
-                Spacer(minLength: 0)
+                if !dynamicTypeSize.isAccessibilitySize { Spacer(minLength: 0) }
                 jumpButton
             }
         }
@@ -48,6 +58,8 @@ struct ContrastBlock: View {
         }
         .typeStyle(Typography.contrastValue)
         .monospacedDigit()
+        .lineLimit(1)
+        .minimumScaleFactor(0.6)
         .foregroundStyle(Tokens.Text.deck.color)
         .animation(Motion.colorChange, value: model.wcag)
         .accessibilityLabel("Contrast")
@@ -66,9 +78,7 @@ struct ContrastBlock: View {
             HStack(spacing: 6.4) {
                 Text(verbatim: "Jump to \(name)")
                     .typeStyle(Typography.button)
-                ArrowIcon()
-                    .stroke(style: StrokeStyle(lineWidth: Tokens.Size.buttonIconStroke, lineCap: .round, lineJoin: .round))
-                    .frame(width: Tokens.Size.buttonIcon, height: Tokens.Size.buttonIcon)
+                ScaledIcon(icon: ArrowIcon())
             }
             .foregroundStyle(Tokens.Text.button.color)
             .padding(.vertical, 8)
@@ -101,6 +111,8 @@ private struct ModeSwitch: View {
                 } label: {
                     Text(mode.rawValue)
                         .typeStyle(Typography.segment)
+                        .lineLimit(1)
+                        .fixedSize()
                         .foregroundStyle((isSelected ? Tokens.Surface.canvas : Tokens.Text.chip).color)
                         .padding(.vertical, 6.08)
                         .padding(.horizontal, 7.68)
@@ -124,6 +136,7 @@ private struct ModeSwitch: View {
 private struct ContrastMeter: View {
     let ratio: Double
     let onJump: (Double) -> Void
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     var body: some View {
         GeometryReader { proxy in
@@ -138,7 +151,7 @@ private struct ContrastMeter: View {
                 tick(name: "AAA", target: ColorMath.aaa, at: ColorMath.Meter.aaaPosition * width)
             }
         }
-        .frame(height: Tokens.Size.contrastTrack + 32)
+        .frame(height: Tokens.Size.contrastTrack + (dynamicTypeSize.isAccessibilitySize ? 16 : 32))
         .padding(.horizontal, 4)
         .accessibilityElement(children: .contain)
     }
@@ -153,15 +166,9 @@ private struct ContrastMeter: View {
             VStack(spacing: 5.6) {
                 Rectangle().fill(Tokens.Line.tick.color)
                     .frame(width: Tokens.Size.tickWidth, height: Tokens.Size.tickHeight)
-                HStack(spacing: 2) {
-                    // Always shown, so pass/fail never depends on color (Differentiate Without Color, ios.md §11).
-                    Image(systemName: passes ? "checkmark" : "xmark")
-                        .font(.system(size: 8, weight: .bold))
-                    Text(verbatim: "\(name) \(value)")
-                        .typeStyle(Typography.tickLabel)
+                if !dynamicTypeSize.isAccessibilitySize {
+                    TickLegend(name: name, value: value, passes: passes)
                 }
-                .foregroundStyle(Tokens.Text.tick.color)
-                .fixedSize()
             }
             .frame(minWidth: Tokens.Size.minHitTarget, minHeight: Tokens.Size.minHitTarget, alignment: .top)
             .contentShape(Rectangle())
@@ -171,5 +178,26 @@ private struct ContrastMeter: View {
         .accessibilityLabel("Jump to WCAG \(name) contrast")
         .accessibilityValue(passes ? "passes" : "fails")
         .accessibilityIdentifier("tick.\(name)")
+    }
+}
+
+/// "✓ AA 4.5": the glyph is always shown, so pass/fail never depends on color
+/// (Differentiate Without Color, ios.md §11).
+private struct TickLegend: View {
+    let name: String
+    let value: String
+    let passes: Bool
+
+    var body: some View {
+        HStack(spacing: 2) {
+            Image(systemName: passes ? "checkmark" : "xmark")
+                .imageScale(.small)
+                .font(Typography.tickLabel.font.weight(.bold))
+            Text(verbatim: "\(name) \(value)")
+                .typeStyle(Typography.tickLabel)
+        }
+        .foregroundStyle(Tokens.Text.tick.color)
+        .fixedSize()
+        .accessibilityHidden(true)   // the tick buttons carry "passes"/"fails"
     }
 }

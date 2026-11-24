@@ -4,18 +4,17 @@ import SwiftUI
 /// button between them (PM §9). Web ≤ 560px: max width 320.
 struct ColorReadout: View {
     @Environment(AppModel.self) private var model
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     var body: some View {
         @Bindable var model = model
-        HStack(alignment: .center, spacing: 8.8) {
+        AdaptiveStack(spacing: 8.8) {
             ColorField(title: "Foreground", color: $model.foreground)
                 .frame(maxWidth: .infinity, alignment: .leading)
             Button {
                 model.swap()
             } label: {
-                SwapIcon()
-                    .stroke(style: StrokeStyle(lineWidth: Tokens.Size.buttonIconStroke, lineCap: .round, lineJoin: .round))
-                    .frame(width: Tokens.Size.buttonIcon, height: Tokens.Size.buttonIcon)
+                ScaledIcon(icon: SwapIcon())
                     .foregroundStyle(Tokens.Icon.swap.color)
                     .frame(width: Tokens.Size.swapButton, height: Tokens.Size.swapButton)
                     .overlay(Circle().strokeBorder(Tokens.Line.swap.color, lineWidth: 1))
@@ -28,7 +27,7 @@ struct ColorReadout: View {
             ColorField(title: "Background", color: $model.background)
                 .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .frame(maxWidth: 320)
+        .frame(maxWidth: dynamicTypeSize.isAccessibilitySize ? .infinity : 320, alignment: .leading)
     }
 }
 
@@ -44,6 +43,8 @@ private struct ColorField: View {
             VStack(alignment: .leading, spacing: 7.68) {
                 Text(title)
                     .typeStyle(Typography.fieldLabel)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.7)
                     .foregroundStyle(Tokens.Text.muted(contrast).color)
                 HStack(spacing: 7.68) {
                     Circle()
