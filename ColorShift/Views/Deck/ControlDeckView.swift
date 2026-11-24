@@ -10,7 +10,7 @@ struct ControlDeckView: View {
                     HStack(alignment: .center) {
                         IdentityView()
                         Spacer(minLength: 12.8)
-                        DeckSectionPlaceholder(title: "Export", id: "deck.export")
+                        ExportActions()
                     }
                     ThemeChips()
                 }
@@ -28,18 +28,5 @@ struct ControlDeckView: View {
         }
         .scrollIndicators(.hidden)
         .accessibilityIdentifier("controlDeck")
-    }
-}
-
-/// Stand-in for a deck section until its task lands (T-031…T-035).
-private struct DeckSectionPlaceholder: View {
-    let title: String
-    let id: String
-
-    var body: some View {
-        Text(title)
-            .typeStyle(Typography.sectionTitle)
-            .foregroundStyle(Tokens.Text.muted.color)
-            .accessibilityIdentifier(id)
     }
 }

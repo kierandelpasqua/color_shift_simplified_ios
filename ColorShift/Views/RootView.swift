@@ -27,6 +27,7 @@ struct RootView: View {
             }
             .animation(Motion.drawer(reduceMotion: reduceMotion), value: model.controlsOpen)
         }
+        .overlay(alignment: .bottom) { CopiedToast() }
         .background(Tokens.Surface.canvas.color.ignoresSafeArea())
     }
 

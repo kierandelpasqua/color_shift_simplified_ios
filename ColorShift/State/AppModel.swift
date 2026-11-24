@@ -1,5 +1,6 @@
 import Foundation
 import Observation
+import UIKit
 
 nonisolated enum ContrastMode: String, CaseIterable, Sendable {
     case wcag = "WCAG"
@@ -23,6 +24,9 @@ final class AppModel {
     var background: SRGB8
     var mode: ContrastMode = .wcag
     var hapticsEnabled: Bool
+    /// True for 1.6 s after Copy link (web `copied`): the button says "Copied" and the toast shows.
+    private(set) var linkCopied = false
+    @ObservationIgnored private var copiedResetTask: Task<Void, Never>?
 
     /// The photo whose derived pair hasn't been applied yet (nil once applied or skipped).
     private(set) var pendingDerivation: Photo.ID?
@@ -193,6 +197,20 @@ final class AppModel {
             + "- Foreground: `\(foreground.hex)`\n- Background: `\(background.hex)`\n"
             + "- WCAG contrast: **\(ColorMath.formatRatio(wcag)):1**\n"
     }
+
+    /// Copies the share link (web `copyLink`). Writing to the pasteboard never prompts.
+    func copyLink(to pasteboard: UIPasteboard = .general) {
+        pasteboard.url = shareURL
+        linkCopied = true
+        copiedResetTask?.cancel()
+        copiedResetTask = Task { [weak self] in
+            try? await Task.sleep(for: Motion.toastVisibleDuration)
+            guard !Task.isCancelled else { return }
+            self?.linkCopied = false
+        }
+    }
+
+    var markdownFile: MarkdownFile { MarkdownFile(fileName: markdownFileName, contents: markdown) }
 
     var markdownFileName: String { "color-shift-\(foreground.hexDigits)-\(background.hexDigits).md" }
 

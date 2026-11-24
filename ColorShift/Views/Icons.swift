@@ -47,6 +47,38 @@ nonisolated struct ArrowIcon: Shape {
     }
 }
 
+/// Copy: `rect 8,8 11×11 rx2` + `M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2`
+nonisolated struct CopyIcon: Shape {
+    func path(in rect: CGRect) -> Path {
+        let s = min(rect.width, rect.height) / 24
+        let o = CGPoint(x: rect.midX - 12 * s, y: rect.midY - 12 * s)
+        func p(_ x: CGFloat, _ y: CGFloat) -> CGPoint { CGPoint(x: o.x + x * s, y: o.y + y * s) }
+        var path = Path(roundedRect: CGRect(x: o.x + 8 * s, y: o.y + 8 * s, width: 11 * s, height: 11 * s), cornerRadius: 2 * s)
+        path.move(to: p(16, 8)); path.addLine(to: p(16, 6))
+        path.addArc(tangent1End: p(16, 4), tangent2End: p(14, 4), radius: 2 * s)
+        path.addLine(to: p(6, 4))
+        path.addArc(tangent1End: p(4, 4), tangent2End: p(4, 6), radius: 2 * s)
+        path.addLine(to: p(4, 14))
+        path.addArc(tangent1End: p(4, 16), tangent2End: p(6, 16), radius: 2 * s)
+        path.addLine(to: p(8, 16))
+        return path
+    }
+}
+
+/// Download: `M12 3v12m0 0 4-4m-4 4-4-4M4 19h16`
+nonisolated struct DownloadIcon: Shape {
+    func path(in rect: CGRect) -> Path {
+        let s = min(rect.width, rect.height) / 24
+        let o = CGPoint(x: rect.midX - 12 * s, y: rect.midY - 12 * s)
+        func p(_ x: CGFloat, _ y: CGFloat) -> CGPoint { CGPoint(x: o.x + x * s, y: o.y + y * s) }
+        var path = Path()
+        path.addLines([p(12, 3), p(12, 15)])
+        path.addLines([p(16, 11), p(12, 15), p(8, 11)])
+        path.addLines([p(4, 19), p(20, 19)])
+        return path
+    }
+}
+
 /// The jellyfish brand mark (36×36, filled; web `JellyfishMark`, PM §9): three layers.
 nonisolated struct JellyfishMark: View {
     var body: some View {
