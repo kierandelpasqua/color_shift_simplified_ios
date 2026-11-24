@@ -192,7 +192,7 @@ Status: `[ ]` todo · `[x]` done · `[!]` blocked (see note) · `HUMAN` = owner 
 ### Phase 1 — Engine
 
 #### T-010 · `SRGB8` value type and HSL
-- [ ] **Depends:** T-001 · **Refs:** ios.md §5 State, §7; PM §8.1–8.4, §8.12, §8.13
+- [x] **Depends:** T-001 · **Refs:** ios.md §5 State, §7; PM §8.1–8.4, §8.12, §8.13
 - **Do:** `SRGB8` (r, g, b `UInt8`), hex parse (with/without `#`, case-insensitive, reject invalid),
   hex format (uppercase), `Color` conversion, HSL derive and HSL→`SRGB8` with the web's integer
   rounding and hue modulo. `nonisolated`, `Sendable`, `Hashable`, `Codable`.
@@ -399,3 +399,4 @@ Append one line per iteration: `YYYY-MM-DD · T-0xx · done|blocked · one-line 
 - 2026-11-24 · T-001 · done · XcodeGen 2.48 project; BUILD + UNIT green (UI launch test also green). UI-test target uses nonisolated default isolation (XCTestCase overrides); TARGETED_DEVICE_FAMILY set per target; dropped deprecated UIRequiresFullScreen.
 - 2026-11-24 · T-002 · done · CLAUDE.md via /init: commands (incl. single-test syntax), loop summary, architecture, conventions, web-repo read-only rule. BUILD green, links resolve.
 - 2026-11-24 · T-003 · done · Tokens/Typography/Motion + empty String Catalog; 16 token text pairs ≥ 4.5:1 (temporary WCAG helper in tests until T-011). iOS fix: credit label 55%→75% white (3.43→4.85:1 over white photos). System-font fallback until T-004.
+- 2026-11-24 · T-010 · done · SRGB8 + HSL with JS rounding; PM §8.12 vectors, 16 invalid inputs, 4,096-color round trip pass. One-off exhaustive check: identical to the web's JS for all 2^24 rgb→hsl and all 361×101×101 hsl→hex. Codable as "#RRGGBB".
