@@ -294,7 +294,7 @@ Status: `[ ]` todo · `[x]` done · `[!]` blocked (see note) · `HUMAN` = owner 
 - **Verify:** BUILD; UNIT for selection logic already in T-020; UI test toggles a chip.
 
 #### T-032 · Color readout, picker and swap
-- [ ] **Depends:** T-030 · **Refs:** ios.md §6
+- [x] **Depends:** T-030 · **Refs:** ios.md §6
 - **Do:** Hex readouts (`monospacedDigit`), `ColorPicker` bridged to `SRGB8` with sRGB clamping, swap.
 - **Verify:** BUILD; UNIT test for the `Color`→`SRGB8` clamp of a Display P3 color.
 
@@ -410,3 +410,4 @@ Append one line per iteration: `YYYY-MM-DD · T-0xx · done|blocked · one-line 
 - 2026-11-24 · T-004 · done · UIAppFonts lists the 6 TTFs; FontTests: every PostScript name resolves, every type style uses a bundled face, both OFL files are in the bundle. Screenshot shows Manrope.
 - 2026-11-24 · T-030 · done · ControlDeckView in the web's ≤ 560px order (topline identity + export, chips row, readout, FG mix, BG mix, contrast) with web gaps (12.8 / 18.4 / 24); IdentityView + JellyfishMark (web SVG paths) built here; other sections are placeholders. BUILD + screenshot.
 - 2026-11-24 · T-031 · done · ThemeChips (All + 6, horizontal scroll, web chip sizes, 44pt hit height, .isSelected). Wave via a wall-clock TimelineView (all selected chips in sync, D6) instead of keyframeAnimator, using the CSS keyframes with ease-in-out per segment; off under Reduce Motion. 4 ChipWave keyframe unit tests; UI test toggles Animals → first Animals photo, All → back to photo 0.
+- 2026-11-24 · T-032 · done · ColorReadout (label, 23.2pt swatch, DM Mono hex; whole field is a 44pt button) + swap (32pt circle in a 44pt target). Picker: system UIColorPickerViewController presented from our button (SwiftUI ColorPicker only offers its own small well), continuous updates; SRGB8(UIColor) clamps extended-sRGB to 0…1. UNIT: P3 red → #FF0000, P3 gray, 4,096-color round trip. UI: swap exchanges values; tapping a field shows the picker (asserts its Grid/Spectrum/Sliders tabs; first version of the test was a false positive and was fixed).

@@ -19,6 +19,21 @@ nonisolated struct MixerIcon: Shape {
     }
 }
 
+/// Swap: `m7 7-3 3 3 3` + `M4 10h13M17 17l3-3-3-3M20 14H7`
+nonisolated struct SwapIcon: Shape {
+    func path(in rect: CGRect) -> Path {
+        let s = min(rect.width, rect.height) / 24
+        let o = CGPoint(x: rect.midX - 12 * s, y: rect.midY - 12 * s)
+        func p(_ x: CGFloat, _ y: CGFloat) -> CGPoint { CGPoint(x: o.x + x * s, y: o.y + y * s) }
+        var path = Path()
+        path.addLines([p(7, 7), p(4, 10), p(7, 13)])
+        path.addLines([p(4, 10), p(17, 10)])
+        path.addLines([p(17, 17), p(20, 14), p(17, 11)])
+        path.addLines([p(20, 14), p(7, 14)])
+        return path
+    }
+}
+
 /// The jellyfish brand mark (36×36, filled; web `JellyfishMark`, PM §9): three layers.
 nonisolated struct JellyfishMark: View {
     var body: some View {

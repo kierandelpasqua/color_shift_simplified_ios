@@ -17,7 +17,7 @@ struct ControlDeckView: View {
                 .padding(.bottom, 18.4)
 
                 VStack(alignment: .leading, spacing: 24) {
-                    DeckSectionPlaceholder(title: "Colors", id: "deck.readout")
+                    ColorReadout()
                     DeckSectionPlaceholder(title: "FG mix", id: "deck.fgMix")
                     DeckSectionPlaceholder(title: "BG mix", id: "deck.bgMix")
                     DeckSectionPlaceholder(title: "Contrast", id: "deck.contrast")
