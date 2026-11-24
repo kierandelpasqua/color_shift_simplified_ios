@@ -259,7 +259,7 @@ Status: `[ ]` todo · `[x]` done · `[!]` blocked (see note) · `HUMAN` = owner 
   full-catalog index, markdown matches the web's output for a fixed pair.
 
 #### T-021 · Root layout and specimen
-- [ ] **Depends:** T-020, T-003 · **Refs:** ios.md §8; PM §10, §11
+- [x] **Depends:** T-020, T-003 · **Refs:** ios.md §8; PM §10, §11
 - **Do:** `RootView` (root `VStack`, drawer slot), `SplitLayout` custom `Layout` using `layoutShares`,
   `SpecimenView` with geometry-based fixed-size "Aa" (80…512 + 13.33), colors animated 0.18 s.
 - **Verify:** BUILD; BUILD@Duo; screenshots on 17e, 18 Pro Max and Duo saved to `docs/screens/`
@@ -404,3 +404,4 @@ Append one line per iteration: `YYYY-MM-DD · T-0xx · done|blocked · one-line 
 - 2026-11-24 · T-012 · done · APCA 0.0.98G-4g (signed Lc, apca-w3 constants, attribution header) + displayValue round(|Lc|); 9 ios.md §7 vectors within 0.001, input-range, ΔY and Lc-10 clip edge cases pass.
 - 2026-11-24 · T-013 · done · Theme, Photo, ColorPair, PhotoCatalog (web order, IDs from web App.tsx). Photographer name/handle filled from the web source (only the Unsplash page URL is optional until H-05). All 12 fallback pairs ≥ 4.5:1; visible(for:) and full-catalog index tested.
 - 2026-11-24 · T-020 · done · AppModel + DeepLink parser + ColorMath.formatRatio (exact JS toFixed; matched node on 300k values). 26 model tests: wraparound, filters/All, tap-to-close, derive skip-once (no lingering skip), stale derive ignored, deep links (good/bad hex, out-of-range, foreign hosts), swap, sliders without drift, jump reached/missed, shareURL catalog index, markdown == web output. Running-app link rules recorded in ios.md §12.
+- 2026-11-24 · T-021 · done · RootView + animatable SplitLayout (layoutShares.mobile) + SpecimenView (geometry size 80…512 + 13.33, a11y label/value, tap closes drawer); app owns AppModel, saves on background. BUILD + BUILD@Duo green; screenshots 17e / 18 Pro Max / Duo (outer display; Duo needs `--display=1`) show no clipping. Fixed: SwiftUI trailing tracking clipped the "a", so only the "A" is tracked (+0.01em offset keeps the web's position); canvas ignores bottom safe area.

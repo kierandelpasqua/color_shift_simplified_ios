@@ -2,12 +2,17 @@ import SwiftUI
 
 @main
 struct ColorShiftApp: App {
+    @State private var model = AppModel()
+    @Environment(\.scenePhase) private var scenePhase
+
     var body: some Scene {
         WindowGroup {
-            // Placeholder canvas until the real views land (Phase 2).
-            Tokens.Surface.canvas.color
-                .ignoresSafeArea()
+            RootView()
+                .environment(model)
                 .preferredColorScheme(.dark)
+        }
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .background { model.save() }
         }
     }
 }
