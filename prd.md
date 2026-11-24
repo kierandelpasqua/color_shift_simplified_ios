@@ -273,7 +273,7 @@ Status: `[ ]` todo · `[x]` done · `[!]` blocked (see note) · `HUMAN` = owner 
 - **Verify:** BUILD; UI test: one tap advances exactly one photo; swipe left/right moves ±1.
 
 #### T-023 · Mixer toggle and push drawer
-- [ ] **Depends:** T-021 · **Refs:** ios.md §5 Liquid Glass, §6, §9 M1
+- [x] **Depends:** T-021 · **Refs:** ios.md §5 Liquid Glass, §6, §9 M1
 - **Do:** 48pt glass toggle in a `GlassEffectContainer`; drawer inserted in the root `VStack` with the
   340/36/1.7 spring; one glass surface for the drawer; Reduce Motion uses the short ease.
   While open, a tap or swipe on the photo, or a tap on the specimen, closes the drawer and doesn't navigate.
@@ -405,3 +405,4 @@ Append one line per iteration: `YYYY-MM-DD · T-0xx · done|blocked · one-line 
 - 2026-11-24 · T-013 · done · Theme, Photo, ColorPair, PhotoCatalog (web order, IDs from web App.tsx). Photographer name/handle filled from the web source (only the Unsplash page URL is optional until H-05). All 12 fallback pairs ≥ 4.5:1; visible(for:) and full-catalog index tested.
 - 2026-11-24 · T-020 · done · AppModel + DeepLink parser + ColorMath.formatRatio (exact JS toFixed; matched node on 300k values). 26 model tests: wraparound, filters/All, tap-to-close, derive skip-once (no lingering skip), stale derive ignored, deep links (good/bad hex, out-of-range, foreign hosts), swap, sliders without drift, jump reached/missed, shareURL catalog index, markdown == web output. Running-app link rules recorded in ios.md §12.
 - 2026-11-24 · T-021 · done · RootView + animatable SplitLayout (layoutShares.mobile) + SpecimenView (geometry size 80…512 + 13.33, a11y label/value, tap closes drawer); app owns AppModel, saves on background. BUILD + BUILD@Duo green; screenshots 17e / 18 Pro Max / Duo (outer display; Duo needs `--display=1`) show no clipping. Fixed: SwiftUI trailing tracking clipped the "a", so only the "A" is tracked (+0.01em offset keeps the web's position); canvas ignores bottom safe area.
+- 2026-11-24 · T-023 · done · 48pt glass MixerToggle (web mixer path) in a GlassEffectContainer, bottom-leading of the canvas; deck inserted in the root VStack with the 340/36/1.7 spring (Reduce Motion: 0.2 s ease), one glass surface, height min(60% of full screen, 544) incl. the home-indicator inset; tappable PhotoPanelView stub for T-022. UI: open/close + tap-photo-closes-without-navigating pass; screenshot shows canvas pushed up. Added DEBUG launch arg -openControlsOnLaunch for screenshots. One unit-test run failed to launch the test host (no tests ran); rerun back-to-back with UI tests passed.
