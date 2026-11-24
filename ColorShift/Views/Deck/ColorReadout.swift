@@ -4,6 +4,7 @@ import SwiftUI
 /// button between them (PM §9). Web ≤ 560px: max width 320.
 struct ColorReadout: View {
     @Environment(AppModel.self) private var model
+    @Environment(\.colorSchemeContrast) private var contrast
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     var body: some View {
@@ -17,7 +18,9 @@ struct ColorReadout: View {
                 ScaledIcon(icon: SwapIcon())
                     .foregroundStyle(Tokens.Icon.swap.color)
                     .frame(width: Tokens.Size.swapButton, height: Tokens.Size.swapButton)
-                    .overlay(Circle().strokeBorder(Tokens.Line.swap.color, lineWidth: 1))
+                    .overlay(Circle().strokeBorder(
+                        (contrast == .increased ? Tokens.Line.increased : Tokens.Line.swap).color,
+                        lineWidth: contrast == .increased ? Tokens.Line.increasedWidth : 1))
                     .frame(width: Tokens.Size.minHitTarget, height: Tokens.Size.minHitTarget)
                     .contentShape(Rectangle())
             }

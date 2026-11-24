@@ -72,6 +72,9 @@ nonisolated enum Tokens {
     }
 
     enum Line {
+        /// Borders under Increase Contrast (chip, swap): brighter and 1.5pt.
+        static let increased = Swatch(rgb: 0x6A6C73)
+        static let increasedWidth: CGFloat = 1.5
         static let chip = Swatch(rgb: 0x303237)
         static let swap = Swatch(rgb: 0x34363B)
         static let tick = Swatch(rgb: 0xA7A8AC)

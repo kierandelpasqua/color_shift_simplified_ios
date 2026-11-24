@@ -8,7 +8,7 @@ struct TypeStyle: Sendable {
     enum Family: Sendable { case manrope, dmMono }
 
     let family: Family
-    let weight: Font.Weight
+    var weight: Font.Weight
     let size: CGFloat
     let textStyle: Font.TextStyle
     var uppercase = false
@@ -25,11 +25,26 @@ struct TypeStyle: Sendable {
         }
     }
 
-    var font: Font {
-        if Typography.isRegistered(postScriptName) {
-            return .custom(postScriptName, size: size, relativeTo: textStyle)
+    var font: Font { font(bold: false) }
+
+    /// With Bold Text on, steps up one bundled weight (Manrope up to Bold; DM Mono up to Medium).
+    func font(bold: Bool) -> Font {
+        let style = bold ? emboldened : self
+        if Typography.isRegistered(style.postScriptName) {
+            return .custom(style.postScriptName, size: size, relativeTo: textStyle)
         }
-        return .system(textStyle, design: family == .dmMono ? .monospaced : .default, weight: weight)
+        return .system(textStyle, design: family == .dmMono ? .monospaced : .default, weight: style.weight)
+    }
+
+    var emboldened: TypeStyle {
+        var copy = self
+        switch (family, weight) {
+        case (.manrope, .regular): copy.weight = .semibold
+        case (.manrope, .medium), (.manrope, .semibold): copy.weight = .bold
+        case (.dmMono, .regular): copy.weight = .medium
+        default: break
+        }
+        return copy
     }
 }
 
@@ -56,9 +71,9 @@ enum Typography {
 
     /// The "Aa" specimen: Manrope SemiBold at a size computed from the specimen's geometry (T-021).
     /// Fixed size, not Dynamic Type: its 80pt minimum already exceeds the largest AX5 style.
-    static func specimen(size: CGFloat) -> Font {
-        let name = "Manrope-SemiBold"
-        return isRegistered(name) ? .custom(name, fixedSize: size) : .system(size: size, weight: .semibold)
+    static func specimen(size: CGFloat, bold: Bool = false) -> Font {
+        let name = bold ? "Manrope-Bold" : "Manrope-SemiBold"
+        return isRegistered(name) ? .custom(name, fixedSize: size) : .system(size: size, weight: bold ? .bold : .semibold)
     }
 
     static func isRegistered(_ postScriptName: String) -> Bool {
@@ -67,8 +82,19 @@ enum Typography {
 }
 
 extension View {
-    /// Applies a type style's font and case.
+    /// Applies a type style's font and case, honoring Bold Text.
     func typeStyle(_ style: TypeStyle) -> some View {
-        font(style.font).textCase(style.uppercase ? .uppercase : nil)
+        modifier(TypeStyleModifier(style: style))
+    }
+}
+
+private struct TypeStyleModifier: ViewModifier {
+    let style: TypeStyle
+    @Environment(\.legibilityWeight) private var legibilityWeight
+
+    func body(content: Content) -> some View {
+        content
+            .font(style.font(bold: legibilityWeight == .bold))
+            .textCase(style.uppercase ? .uppercase : nil)
     }
 }

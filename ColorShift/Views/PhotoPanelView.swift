@@ -13,6 +13,7 @@ struct PhotoPanelView: View {
                 .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
+        .accessibilityIgnoresInvertColors()
         .accessibilityLabel(model.photo.alt)
         .accessibilityHint("Double-tap for next photo")
         .accessibilityValue(model.photo.id)

@@ -2,6 +2,8 @@ import SwiftUI
 
 /// Jellyfish mark + "Color Shift" / "PHOTO → PAIR" (PM §9). Becomes the About sheet's entry point in T-045.
 struct IdentityView: View {
+    @Environment(\.colorSchemeContrast) private var contrast
+
     var body: some View {
         HStack(spacing: 9.92) {
             JellyfishMark()
@@ -12,7 +14,7 @@ struct IdentityView: View {
                     .foregroundStyle(Tokens.Text.deck.color)
                 Text("Photo → pair")
                     .typeStyle(Typography.brandSubtitle)
-                    .foregroundStyle(Tokens.Text.subtle.color)
+                    .foregroundStyle((contrast == .increased ? Tokens.Text.mutedIncreased : Tokens.Text.subtle).color)
             }
         }
         .accessibilityElement(children: .combine)

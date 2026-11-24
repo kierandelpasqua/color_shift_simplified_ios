@@ -30,6 +30,7 @@ private struct ThemeChip: View {
     let action: () -> Void
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.colorSchemeContrast) private var contrast
 
     var body: some View {
         Button(action: action) {
@@ -49,7 +50,9 @@ private struct ThemeChip: View {
                     }
                 }
                 .overlay {
-                    Capsule().strokeBorder((isSelected ? Tokens.Selected.chipFill : Tokens.Line.chip).color, lineWidth: 1)
+                    Capsule().strokeBorder(
+                        (isSelected ? Tokens.Selected.chipFill : contrast == .increased ? Tokens.Line.increased : Tokens.Line.chip).color,
+                        lineWidth: contrast == .increased ? Tokens.Line.increasedWidth : 1)
                 }
                 // 44pt hit area around the web-sized capsule (NFR4).
                 .frame(minHeight: Tokens.Size.minHitTarget)

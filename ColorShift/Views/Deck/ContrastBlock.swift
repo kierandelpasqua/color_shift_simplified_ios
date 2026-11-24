@@ -198,6 +198,7 @@ private struct TickLegend: View {
     let name: String
     let value: String
     let passes: Bool
+    @Environment(\.colorSchemeContrast) private var contrast
 
     var body: some View {
         HStack(spacing: 2) {
@@ -207,7 +208,7 @@ private struct TickLegend: View {
             Text(verbatim: "\(name) \(value)")
                 .typeStyle(Typography.tickLabel)
         }
-        .foregroundStyle(Tokens.Text.tick.color)
+        .foregroundStyle((contrast == .increased ? Tokens.Text.mutedIncreased : Tokens.Text.tick).color)
         .fixedSize()
         .accessibilityHidden(true)   // the tick buttons carry "passes"/"fails"
     }

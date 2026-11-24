@@ -70,6 +70,7 @@ private struct HSLSlider: View {
                     Capsule()
                         .fill(LinearGradient(colors: trackColors, startPoint: .leading, endPoint: .trailing))
                         .frame(height: Tokens.Size.sliderTrack)
+                        .accessibilityIgnoresInvertColors()   // the track shows real colors
                     Circle()
                         .fill(Tokens.Thumb.fill.color)
                         .overlay(Circle().strokeBorder(Tokens.Surface.canvas.color, lineWidth: 2))

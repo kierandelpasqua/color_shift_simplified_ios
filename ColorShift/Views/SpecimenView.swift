@@ -4,12 +4,13 @@ import SwiftUI
 /// The type size comes from the specimen's own size, not Dynamic Type (ios.md §8).
 struct SpecimenView: View {
     @Environment(AppModel.self) private var model
+    @Environment(\.legibilityWeight) private var legibilityWeight
 
     var body: some View {
         GeometryReader { proxy in
             let size = Self.fontSize(for: proxy.size)
             Self.specimenText(size: size)
-                .font(Typography.specimen(size: size))
+                .font(Typography.specimen(size: size, bold: legibilityWeight == .bold))
                 .offset(x: 0.01 * size)
                 .foregroundStyle(model.foreground.color)
                 .lineLimit(1)
@@ -19,6 +20,7 @@ struct SpecimenView: View {
         }
         .background(model.background.color)
         .clipped()
+        .accessibilityIgnoresInvertColors()   // the specimen shows the actual pair
         .animation(Motion.colorChange, value: model.foreground)
         .animation(Motion.colorChange, value: model.background)
         .contentShape(Rectangle())
