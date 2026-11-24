@@ -7,3 +7,6 @@ xcuserdata/
 *.xcscmblueprint
 .swiftpm/
 .build/
+
+# XcodeGen output (regenerate with `xcodegen generate`)
+ColorShift.xcodeproj/

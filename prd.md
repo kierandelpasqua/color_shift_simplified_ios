@@ -156,7 +156,7 @@ Status: `[ ]` todo · `[x]` done · `[!]` blocked (see note) · `HUMAN` = owner 
   into `ColorShift/Resources/Fonts/`. (ios.md §13)
 
 #### T-001 · Generate the Xcode project with XcodeGen
-- [ ] **Depends:** none · **Refs:** ios.md §5, §1 of this file
+- [x] **Depends:** none · **Refs:** ios.md §5, §1 of this file
 - **Do:** `brew install xcodegen` if missing. Write `project.yml` with targets `ColorShift` (iOS app,
   iOS 26.0, iPhone only, portrait, `UIUserInterfaceStyle = Dark`), `ColorShiftTests` (unit, Swift
   Testing) and `ColorShiftUITests`. Settings: Swift 6 language mode, `SWIFT_DEFAULT_ACTOR_ISOLATION =
@@ -393,3 +393,4 @@ Status: `[ ]` todo · `[x]` done · `[!]` blocked (see note) · `HUMAN` = owner 
 Append one line per iteration: `YYYY-MM-DD · T-0xx · done|blocked · one-line note`.
 
 - 2026-11-24 · — · setup · PRD created; repo initialized with ios.md, PROJECT_MAP.md snapshot, research/.
+- 2026-11-24 · T-001 · done · XcodeGen 2.48 project; BUILD + UNIT green (UI launch test also green). UI-test target uses nonisolated default isolation (XCTestCase overrides); TARGETED_DEVICE_FAMILY set per target; dropped deprecated UIRequiresFullScreen.

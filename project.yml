@@ -1,0 +1,102 @@
+name: ColorShift
+
+options:
+  bundleIdPrefix: com.example
+  deploymentTarget:
+    iOS: "26.0"
+  createIntermediateGroups: true
+  generateEmptyDirectories: true
+
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_DEFAULT_ACTOR_ISOLATION: MainActor
+    SWIFT_APPROACHABLE_CONCURRENCY: YES
+    SWIFT_STRICT_CONCURRENCY: complete
+    IPHONEOS_DEPLOYMENT_TARGET: "26.0"
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    CODE_SIGN_STYLE: Automatic
+
+targets:
+  ColorShift:
+    type: application
+    platform: iOS
+    sources:
+      - path: ColorShift
+        excludes:
+          - "**/.gitkeep"
+    settings:
+      base:
+        TARGETED_DEVICE_FAMILY: "1"
+        # Placeholder until H-01; keep in sync with AppConfig.bundleID.
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.colorshift
+        PRODUCT_NAME: ColorShift
+        SWIFT_TREAT_WARNINGS_AS_ERRORS: YES
+        GCC_TREAT_WARNINGS_AS_ERRORS: YES
+        SUPPORTS_MACCATALYST: NO
+        SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD: NO
+        SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD: NO
+    info:
+      path: ColorShift/Resources/Info.plist
+      properties:
+        CFBundleDisplayName: Color Shift
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        LSRequiresIPhoneOS: true
+        UILaunchScreen: {}
+        UIUserInterfaceStyle: Dark
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+        CFBundleURLTypes:
+          - CFBundleURLName: $(PRODUCT_BUNDLE_IDENTIFIER)
+            CFBundleURLSchemes:
+              - colorshift
+        ITSAppUsesNonExemptEncryption: false
+        UIAppFonts: []
+
+  ColorShiftTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - ColorShiftTests
+    dependencies:
+      - target: ColorShift
+    settings:
+      base:
+        TARGETED_DEVICE_FAMILY: "1"
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.colorshift.tests
+        GENERATE_INFOPLIST_FILE: YES
+        TEST_HOST: $(BUILT_PRODUCTS_DIR)/ColorShift.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ColorShift
+        BUNDLE_LOADER: $(TEST_HOST)
+
+  ColorShiftUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - ColorShiftUITests
+    dependencies:
+      - target: ColorShift
+    settings:
+      base:
+        TARGETED_DEVICE_FAMILY: "1"
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.colorshift.uitests
+        GENERATE_INFOPLIST_FILE: YES
+        TEST_TARGET_NAME: ColorShift
+        # XCTestCase overrides are nonisolated; tests opt into @MainActor explicitly.
+        SWIFT_DEFAULT_ACTOR_ISOLATION: nonisolated
+
+schemes:
+  ColorShift:
+    build:
+      targets:
+        ColorShift: all
+    test:
+      config: Debug
+      targets:
+        - ColorShiftTests
+        - ColorShiftUITests
+    run:
+      config: Debug
+    archive:
+      config: Release
