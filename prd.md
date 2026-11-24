@@ -168,7 +168,7 @@ Status: `[ ]` todo · `[x]` done · `[!]` blocked (see note) · `HUMAN` = owner 
 - **Verify:** `xcodegen generate` → BUILD → UNIT (one trivial passing `@Test`).
 
 #### T-002 · Repo CLAUDE.md
-- [ ] **Depends:** T-001 · **Refs:** §0, §4
+- [x] **Depends:** T-001 · **Refs:** §0, §4
 - **Do:** Write `CLAUDE.md`: what the repo is, the §4 commands, the loop rules (point to prd.md §0),
   architecture summary from ios.md §5, conventions (no dependencies, `nonisolated` engine, colors as
   `SRGB8`, motion constants only in `Motion.swift`, keep web photo order).
@@ -394,3 +394,4 @@ Append one line per iteration: `YYYY-MM-DD · T-0xx · done|blocked · one-line 
 
 - 2026-11-24 · — · setup · PRD created; repo initialized with ios.md, PROJECT_MAP.md snapshot, research/.
 - 2026-11-24 · T-001 · done · XcodeGen 2.48 project; BUILD + UNIT green (UI launch test also green). UI-test target uses nonisolated default isolation (XCTestCase overrides); TARGETED_DEVICE_FAMILY set per target; dropped deprecated UIRequiresFullScreen.
+- 2026-11-24 · T-002 · done · CLAUDE.md via /init: commands (incl. single-test syntax), loop summary, architecture, conventions, web-repo read-only rule. BUILD green, links resolve.
