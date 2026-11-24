@@ -384,6 +384,9 @@ exceeds 200% and qualifies for the Larger Text nutrition label. Numeric readouts
 ≥ 4.5:1 with `ColorMath.contrast` in a unit test. Under **Increase Contrast**, use about **`#A9ABB1`**
 (8.16:1). (Propose the same change to the web, Q13.)
 
+The photo credit's "Photo" label is 55% white on the 68% black chip: 3.43:1 when the chip sits over a white
+part of the photo. iOS uses **75% white** (4.85:1 worst case). Both are checked in `TokenContrastTests`.
+
 ---
 
 ## 9. Motion
@@ -488,6 +491,7 @@ optional). Don't fire them on every slider step.
 | `tuneToContrast` can silently miss | Return `(color, reachedTarget)`; show "Can't reach AAA with this hue" + warning haptic |
 | APCA approximation | Real APCA (§7) |
 | Muted text fails AA | New muted color (§8) |
+| Credit label fails AA over bright photos | 75% white instead of 55% (§8) |
 | Clipboard errors unhandled | N/A (`UIPasteboard` doesn't throw); toast always confirms |
 | Tiny type | New type scale (§8) |
 

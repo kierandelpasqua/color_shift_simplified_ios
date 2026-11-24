@@ -175,7 +175,7 @@ Status: `[ ]` todo · `[x]` done · `[!]` blocked (see note) · `HUMAN` = owner 
 - **Verify:** BUILD still passes; file links resolve.
 
 #### T-003 · Design tokens, typography and motion constants
-- [ ] **Depends:** T-001 · **Refs:** ios.md §8, §9; PM §10, §12
+- [x] **Depends:** T-001 · **Refs:** ios.md §8, §9; PM §10, §12
 - **Do:** `Tokens.swift` (colors incl. muted `#83858C` and its Increase Contrast `#A9ABB1`, spacing,
   radii), `Typography.swift` (the ios.md §8 type scale via `Font.custom(_:size:relativeTo:)`, falling
   back to system fonts until H-04), `Motion.swift` (drawer spring, reveal curve/duration, chip wave
@@ -398,3 +398,4 @@ Append one line per iteration: `YYYY-MM-DD · T-0xx · done|blocked · one-line 
 - 2026-11-24 · — · setup · PRD created; repo initialized with ios.md, PROJECT_MAP.md snapshot, research/.
 - 2026-11-24 · T-001 · done · XcodeGen 2.48 project; BUILD + UNIT green (UI launch test also green). UI-test target uses nonisolated default isolation (XCTestCase overrides); TARGETED_DEVICE_FAMILY set per target; dropped deprecated UIRequiresFullScreen.
 - 2026-11-24 · T-002 · done · CLAUDE.md via /init: commands (incl. single-test syntax), loop summary, architecture, conventions, web-repo read-only rule. BUILD green, links resolve.
+- 2026-11-24 · T-003 · done · Tokens/Typography/Motion + empty String Catalog; 16 token text pairs ≥ 4.5:1 (temporary WCAG helper in tests until T-011). iOS fix: credit label 55%→75% white (3.43→4.85:1 over white photos). System-font fallback until T-004.
