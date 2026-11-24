@@ -207,7 +207,7 @@ Status: `[ ]` todo · `[x]` done · `[!]` blocked (see note) · `HUMAN` = owner 
   `reachedTarget == false`.
 
 #### T-012 · APCA 0.0.98G-4g
-- [ ] **Depends:** T-010 · **Refs:** ios.md §7; research/color-apca-image-sampling.md
+- [x] **Depends:** T-010 · **Refs:** ios.md §7; research/color-apca-image-sampling.md
 - **Do:** `APCA.lc(text:background:)` with the apca-w3 constants; signed result.
 - **Verify:** UNIT: the 9 vectors in ios.md §7, tolerance 0.001.
 
@@ -401,3 +401,4 @@ Append one line per iteration: `YYYY-MM-DD · T-0xx · done|blocked · one-line 
 - 2026-11-24 · T-003 · done · Tokens/Typography/Motion + empty String Catalog; 16 token text pairs ≥ 4.5:1 (temporary WCAG helper in tests until T-011). iOS fix: credit label 55%→75% white (3.43→4.85:1 over white photos). System-font fallback until T-004.
 - 2026-11-24 · T-010 · done · SRGB8 + HSL with JS rounding; PM §8.12 vectors, 16 invalid inputs, 4,096-color round trip pass. One-off exhaustive check: identical to the web's JS for all 2^24 rgb→hsl and all 361×101×101 hsl→hex. Codable as "#RRGGBB".
 - 2026-11-24 · T-011 · done · ColorMath (luminance, contrast, tune → (color, reachedTarget), layoutShares, Meter incl. Jump target); PM §8.12 vectors + unreachable-7:1 miss pass; token test now uses ColorMath. One-off: tune/contrast identical to web JS on 200k random pairs.
+- 2026-11-24 · T-012 · done · APCA 0.0.98G-4g (signed Lc, apca-w3 constants, attribution header) + displayValue round(|Lc|); 9 ios.md §7 vectors within 0.001, input-range, ΔY and Lc-10 clip edge cases pass.
