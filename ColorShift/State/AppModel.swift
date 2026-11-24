@@ -15,7 +15,12 @@ nonisolated enum HSLChannel: Sendable { case hue, saturation, lightness }
 /// Colors are `SRGB8`; hex, HSL and contrast are derived.
 @Observable
 final class AppModel {
-    var controlsOpen = false
+    var controlsOpen = false {
+        didSet { if controlsOpen != oldValue { emit(.drawerToggled) } }
+    }
+    /// The latest haptic event (ios.md §10); played by `HapticsModifier` when haptics are on.
+    private(set) var haptic: HapticSignal?
+    @ObservationIgnored private var hapticSerial = 0
     /// Selected themes in the order they were picked (like the web); empty means All.
     private(set) var selectedThemes: [Theme] = []
     /// Index into `visiblePhotos`.
@@ -66,6 +71,7 @@ final class AppModel {
         let count = visiblePhotos.count
         photoIndex = ((photoIndex + direction) % count + count) % count
         photoChanged()
+        emit(.photoChanged)
     }
 
     /// `nil` is All (clears the selection). Otherwise toggles the theme. Resets to the first visible photo.
@@ -81,6 +87,7 @@ final class AppModel {
         }
         photoIndex = 0
         photoChanged()
+        emit(.themeToggled)
     }
 
     /// Tap on the photo: closes the open drawer, otherwise shows the next photo (PM §13).
@@ -137,7 +144,24 @@ final class AppModel {
             let v = min(100, max(0, value)); guard v != hsl.l else { return }; hsl.l = v
         }
         let next = SRGB8(hsl: hsl)
+        let before = wcag
         if role == .foreground { foreground = next } else { background = next }
+        emitDragFeedback(channel: channel, value: value, contrastBefore: before)
+    }
+
+    /// While dragging: `.alignment` at a slider's end; otherwise a tick when contrast crosses AA or AAA.
+    private func emitDragFeedback(channel: HSLChannel, value: Int, contrastBefore before: Double) {
+        let maximum = channel == .hue ? 360 : 100
+        if value <= 0 || value >= maximum {
+            emit(.sliderReachedEnd)
+            return
+        }
+        let after = wcag
+        if [ColorMath.aa, ColorMath.aaa].contains(where: { before < $0 && after >= $0 }) {
+            emit(.contrastRose)
+        } else if before >= ColorMath.aa && after < ColorMath.aa {
+            emit(.contrastFell)
+        }
     }
 
     /// Tunes the foreground's lightness toward `target` (4.5 or 7). Returns whether it got there.
@@ -145,11 +169,13 @@ final class AppModel {
     func jump(to target: Double) -> Bool {
         let result = ColorMath.tune(foreground, against: background, target: target)
         foreground = result.color
+        emit(result.reachedTarget ? .jumpReached : .jumpMissed)
         return result.reachedTarget
     }
 
     func swap() {
         (foreground, background) = (background, foreground)
+        emit(.swapped)
     }
 
     // MARK: Links and export
@@ -202,6 +228,7 @@ final class AppModel {
     func copyLink(to pasteboard: UIPasteboard = .general) {
         pasteboard.url = shareURL
         linkCopied = true
+        emit(.linkCopied)
         copiedResetTask?.cancel()
         copiedResetTask = Task { [weak self] in
             try? await Task.sleep(for: Motion.toastVisibleDuration)
@@ -213,6 +240,13 @@ final class AppModel {
     var markdownFile: MarkdownFile { MarkdownFile(fileName: markdownFileName, contents: markdown) }
 
     var markdownFileName: String { "color-shift-\(foreground.hexDigits)-\(background.hexDigits).md" }
+
+    // MARK: Haptics
+
+    private func emit(_ event: HapticEvent) {
+        hapticSerial += 1
+        haptic = HapticSignal(event: event, serial: hapticSerial)
+    }
 
     // MARK: Persistence
 

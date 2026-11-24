@@ -8,6 +8,7 @@ struct ColorShiftApp: App {
     var body: some Scene {
         WindowGroup {
             RootView()
+                .modifier(HapticsModifier())
                 .environment(model)
                 .preferredColorScheme(.dark)
                 #if DEBUG

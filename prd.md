@@ -324,7 +324,7 @@ Status: `[ ]` todo · `[x]` done · `[!]` blocked (see note) · `HUMAN` = owner 
   show no clipped controls.
 
 #### T-041 · Haptics
-- [ ] **Depends:** T-031…T-035 · **Refs:** ios.md §10
+- [x] **Depends:** T-031…T-035 · **Refs:** ios.md §10
 - **Do:** `.sensoryFeedback` per the table, gated by `hapticsEnabled`.
 - **Verify:** BUILD; grep shows no `.increase/.decrease/.start/.stop/.levelChange`.
 
@@ -415,3 +415,4 @@ Append one line per iteration: `YYYY-MM-DD · T-0xx · done|blocked · one-line 
 - 2026-11-24 · T-034 · done · ContrastBlock: capsule WCAG/APCA switch (.isSelected, 44pt), score with numericText (WCAG = JS toFixed(2), APCA = round(|Lc|)), meter (fill min(1, r/12), AA 37.5% / AAA 58.3% tick buttons, 44pt targets), always-on ✓/✗ glyphs, Jump to AA/AAA with "Can't reach … with this hue" shown until the pair changes. UI: darkening FG then Jump to AA gives ≥ 4.5 and AA tick "passes"; APCA mode shows "78 Lc" for the initial pair.
 - 2026-11-24 · T-035 · done · ExportActions (icon-only like the web ≤ 560px, web copy/download paths, 44pt targets). Copy link: UIPasteboard url = shareURL, model.linkCopied for 1.6 s (web `copied`), button label "Copied", bottom toast "Link copied to clipboard" + VoiceOver announcement. Markdown: ShareLink with a Transferable MarkdownFile (.md, plain-text-conforming) written to tmp. UNIT: file name/contents, .md type, pasteboard write. UI: toast appears and clears; share sheet names color-shift-F4C6D9-16172B.md and offers Save to Files. Full UI suite (12 tests) green.
 - 2026-11-24 · T-040 · done · AdaptiveStack (AnyLayout HStack→VStack at accessibility sizes) for topline, readout, slider headings/rows, contrast head and jump row; tick labels move to a legend row at AX sizes (they collide under the ticks); icons scale via @ScaledMetric; segment/score single-line. No clamp needed: AX5 fits. Screenshots at Large/AX3/AX5 (docs/screens/t040-*). Found and fixed a real bug: the slider's DragGesture(minimumDistance: 0) captured vertical scrolls (scrolling the deck changed colors); now a UIKit horizontal-only pan + tap. Regression UI test fails on the old gesture, passes now.
+- 2026-11-24 · T-041 · done · Model emits HapticEvents from its actions (photo, chip, drawer via didSet, swap, jump reached/missed, link copied, slider end, contrast crossing AA/AAA up or below AA while dragging); one root HapticsModifier maps them to iPhone-playable SensoryFeedback, gated by hapticsEnabled. 6 unit tests incl. "no .increase/.decrease/.start/.stop/.levelChange"; grep of app sources finds them only in a doc comment. Full UI suite (16) green. The on/off toggle UI comes with the About sheet (T-045).
