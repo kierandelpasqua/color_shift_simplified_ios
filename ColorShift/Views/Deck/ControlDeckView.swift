@@ -12,7 +12,7 @@ struct ControlDeckView: View {
                         Spacer(minLength: 12.8)
                         DeckSectionPlaceholder(title: "Export", id: "deck.export")
                     }
-                    DeckSectionPlaceholder(title: "Themes", id: "deck.themes")
+                    ThemeChips()
                 }
                 .padding(.bottom, 18.4)
 

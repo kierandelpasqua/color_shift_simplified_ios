@@ -288,7 +288,7 @@ Status: `[ ]` todo · `[x]` done · `[!]` blocked (see note) · `HUMAN` = owner 
 - **Verify:** BUILD; screenshot.
 
 #### T-031 · Theme chips with wave
-- [ ] **Depends:** T-030 · **Refs:** PM §9, §12 M3; ios.md §9
+- [x] **Depends:** T-030 · **Refs:** PM §9, §12 M3; ios.md §9
 - **Do:** Horizontal chip row, multi-select + All, `.isSelected` trait, `keyframeAnimator` wave on the
   selected chip, none under Reduce Motion.
 - **Verify:** BUILD; UNIT for selection logic already in T-020; UI test toggles a chip.
@@ -409,3 +409,4 @@ Append one line per iteration: `YYYY-MM-DD · T-0xx · done|blocked · one-line 
 - 2026-11-24 · H-04 · done · Downloaded by Claude at the owner's request: DM Mono 400/500 and both OFL texts from google/fonts; Manrope 400/500/600/700 static TTFs from googlefonts/manrope (google/fonts only ships the variable font). PostScript names verified with CoreText.
 - 2026-11-24 · T-004 · done · UIAppFonts lists the 6 TTFs; FontTests: every PostScript name resolves, every type style uses a bundled face, both OFL files are in the bundle. Screenshot shows Manrope.
 - 2026-11-24 · T-030 · done · ControlDeckView in the web's ≤ 560px order (topline identity + export, chips row, readout, FG mix, BG mix, contrast) with web gaps (12.8 / 18.4 / 24); IdentityView + JellyfishMark (web SVG paths) built here; other sections are placeholders. BUILD + screenshot.
+- 2026-11-24 · T-031 · done · ThemeChips (All + 6, horizontal scroll, web chip sizes, 44pt hit height, .isSelected). Wave via a wall-clock TimelineView (all selected chips in sync, D6) instead of keyframeAnimator, using the CSS keyframes with ease-in-out per segment; off under Reduce Motion. 4 ChipWave keyframe unit tests; UI test toggles Animals → first Animals photo, All → back to photo 0.
