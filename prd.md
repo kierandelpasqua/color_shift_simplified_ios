@@ -283,7 +283,7 @@ Status: `[ ]` todo · `[x]` done · `[!]` blocked (see note) · `HUMAN` = owner 
 ### Phase 3 — Deck
 
 #### T-030 · Deck skeleton
-- [ ] **Depends:** T-023 · **Refs:** ios.md §8 (deck order); PM §9
+- [x] **Depends:** T-023 · **Refs:** ios.md §8 (deck order); PM §9
 - **Do:** Scrollable `ControlDeckView` with the web's single-column order; placeholder sections.
 - **Verify:** BUILD; screenshot.
 
@@ -408,3 +408,4 @@ Append one line per iteration: `YYYY-MM-DD · T-0xx · done|blocked · one-line 
 - 2026-11-24 · T-023 · done · 48pt glass MixerToggle (web mixer path) in a GlassEffectContainer, bottom-leading of the canvas; deck inserted in the root VStack with the 340/36/1.7 spring (Reduce Motion: 0.2 s ease), one glass surface, height min(60% of full screen, 544) incl. the home-indicator inset; tappable PhotoPanelView stub for T-022. UI: open/close + tap-photo-closes-without-navigating pass; screenshot shows canvas pushed up. Added DEBUG launch arg -openControlsOnLaunch for screenshots. One unit-test run failed to launch the test host (no tests ran); rerun back-to-back with UI tests passed.
 - 2026-11-24 · H-04 · done · Downloaded by Claude at the owner's request: DM Mono 400/500 and both OFL texts from google/fonts; Manrope 400/500/600/700 static TTFs from googlefonts/manrope (google/fonts only ships the variable font). PostScript names verified with CoreText.
 - 2026-11-24 · T-004 · done · UIAppFonts lists the 6 TTFs; FontTests: every PostScript name resolves, every type style uses a bundled face, both OFL files are in the bundle. Screenshot shows Manrope.
+- 2026-11-24 · T-030 · done · ControlDeckView in the web's ≤ 560px order (topline identity + export, chips row, readout, FG mix, BG mix, contrast) with web gaps (12.8 / 18.4 / 24); IdentityView + JellyfishMark (web SVG paths) built here; other sections are placeholders. BUILD + screenshot.
