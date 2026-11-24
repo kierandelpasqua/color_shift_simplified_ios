@@ -249,7 +249,7 @@ Status: `[ ]` todo · `[x]` done · `[!]` blocked (see note) · `HUMAN` = owner 
 ### Phase 2 — Canvas
 
 #### T-020 · `AppModel`
-- [ ] **Depends:** T-011, T-012, T-013 · **Refs:** ios.md §5 State; PM §6
+- [x] **Depends:** T-011, T-012, T-013 · **Refs:** ios.md §5 State; PM §6
 - **Do:** `@Observable` model: controls open, selected themes, photo index, fg/bg `SRGB8`, mode, derived
   `wcag`/`apca`, `preserveLinkedColors`, `hapticsEnabled` (UserDefaults, saved on background). Actions:
   `navigate`, `toggleTheme`, `setChannel`, `jump`, `swap`, `photoDidDerive`, `apply(deepLink:)`,
@@ -403,3 +403,4 @@ Append one line per iteration: `YYYY-MM-DD · T-0xx · done|blocked · one-line 
 - 2026-11-24 · T-011 · done · ColorMath (luminance, contrast, tune → (color, reachedTarget), layoutShares, Meter incl. Jump target); PM §8.12 vectors + unreachable-7:1 miss pass; token test now uses ColorMath. One-off: tune/contrast identical to web JS on 200k random pairs.
 - 2026-11-24 · T-012 · done · APCA 0.0.98G-4g (signed Lc, apca-w3 constants, attribution header) + displayValue round(|Lc|); 9 ios.md §7 vectors within 0.001, input-range, ΔY and Lc-10 clip edge cases pass.
 - 2026-11-24 · T-013 · done · Theme, Photo, ColorPair, PhotoCatalog (web order, IDs from web App.tsx). Photographer name/handle filled from the web source (only the Unsplash page URL is optional until H-05). All 12 fallback pairs ≥ 4.5:1; visible(for:) and full-catalog index tested.
+- 2026-11-24 · T-020 · done · AppModel + DeepLink parser + ColorMath.formatRatio (exact JS toFixed; matched node on 300k values). 26 model tests: wraparound, filters/All, tap-to-close, derive skip-once (no lingering skip), stale derive ignored, deep links (good/bad hex, out-of-range, foreign hosts), swap, sliders without drift, jump reached/missed, shareURL catalog index, markdown == web output. Running-app link rules recorded in ios.md §12.

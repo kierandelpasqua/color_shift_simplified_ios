@@ -51,6 +51,34 @@ nonisolated enum ColorMath {
         return TuneResult(color: best, reachedTarget: false)
     }
 
+    // MARK: Formatting
+
+    /// The WCAG readout and Markdown value, e.g. `7.81` (the web's `ratio.toFixed(2)`).
+    static func formatRatio(_ ratio: Double) -> String { jsToFixed(ratio, digits: 2) }
+
+    /// JavaScript `Number.prototype.toFixed` for non-negative finite values: rounds the **exact** binary
+    /// value, and exact ties round up. (`String(format: "%.2f")` rounds ties to even: 1.125 → "1.12", JS "1.13".)
+    static func jsToFixed(_ value: Double, digits: Int) -> String {
+        precondition(value >= 0 && value.isFinite && digits >= 0)
+        // 1074 digits would cover every double; values here are < 1e3, so 80 fraction digits are exact.
+        let exact = String(format: "%.80f", value)
+        let dot = exact.firstIndex(of: ".")!
+        var whole = Array(exact[..<dot]) + Array(exact[exact.index(after: dot)...].prefix(digits))
+        let next = exact[exact.index(after: dot)...].dropFirst(digits).first ?? "0"
+        if next >= "5" {
+            var i = whole.count - 1
+            while i >= 0 {
+                if whole[i] == "9" { whole[i] = "0"; i -= 1 } else {
+                    whole[i] = Character(String(whole[i].wholeNumberValue! + 1)); break
+                }
+            }
+            if i < 0 { whole.insert("1", at: 0) }
+        }
+        let intCount = whole.count - digits
+        let intPart = String(whole[..<intCount])
+        return digits == 0 ? intPart : intPart + "." + String(whole[intCount...])
+    }
+
     // MARK: Layout (PM §8.10)
 
     /// Photo share of the canvas, in percent, by photo aspect (width / height).

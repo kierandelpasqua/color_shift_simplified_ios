@@ -225,7 +225,7 @@ ColorShift/
     func setChannel(_ role: ColorRole, _ channel: HSLChannel, _ value: Int)
     func jump(to target: Double)
     func swap()
-    func photoDidDerive(_ pair: ColorPair)    // applies the cached PhotoSampler pair unless preserveLinkedColors
+    func photoDidDerive(_ pair: ColorPair?, for: Photo.ID)  // cached PhotoSampler pair (nil = fallback); skipped once after a link
     func apply(deepLink: URL)
     var shareURL: URL { … }
     var markdown: String { … }
@@ -463,7 +463,11 @@ optional). Don't fire them on every slider step.
   you own can serve it and forward everything else to the Figma Make URL. The `colorshift://` scheme is
   internal only and never appears in anything the user shares.
 - **Validation** is the same as the web: 6-hex colors (case-insensitive, stored uppercase), photo 0–11,
-  and skip the next derivation when both colors are valid.
+  and skip the next derivation when both colors are valid. A missing or empty `photo` means 0 (the web's
+  `Number(null)`); otherwise only plain digits are accepted (the web's `Number()` also takes `1.0`, `0x3`, `1e1`).
+- **Links arriving while the app runs** (the web only reads links on load): a valid `photo` clears the theme
+  filter so the index is a catalog position, and the derivation skip is set only while a derivation is still
+  pending for the shown photo, so it can't linger.
 - **Photo index meaning:** always the **full-catalog** index in links, independent of the filter (§14).
 
 ---
