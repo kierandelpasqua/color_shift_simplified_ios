@@ -304,7 +304,7 @@ Status: `[ ]` todo · `[x]` done · `[!]` blocked (see note) · `HUMAN` = owner 
 - **Verify:** BUILD; UNIT: moving one slider changes only that channel; untouched colors keep their hex.
 
 #### T-034 · Contrast block
-- [ ] **Depends:** T-030, T-012 · **Refs:** ios.md §6; PM §9
+- [x] **Depends:** T-030, T-012 · **Refs:** ios.md §6; PM §9
 - **Do:** WCAG/APCA switch, score with `.contentTransition(.numericText(value:))`, meter, AA/AAA ticks
   with 44pt hit areas, Jump button with reached/missed message, pass/fail glyphs.
 - **Verify:** BUILD; UI test: Jump to AA yields ≥ 4.5:1 shown.
@@ -412,3 +412,4 @@ Append one line per iteration: `YYYY-MM-DD · T-0xx · done|blocked · one-line 
 - 2026-11-24 · T-031 · done · ThemeChips (All + 6, horizontal scroll, web chip sizes, 44pt hit height, .isSelected). Wave via a wall-clock TimelineView (all selected chips in sync, D6) instead of keyframeAnimator, using the CSS keyframes with ease-in-out per segment; off under Reduce Motion. 4 ChipWave keyframe unit tests; UI test toggles Animals → first Animals photo, All → back to photo 0.
 - 2026-11-24 · T-032 · done · ColorReadout (label, 23.2pt swatch, DM Mono hex; whole field is a 44pt button) + swap (32pt circle in a 44pt target). Picker: system UIColorPickerViewController presented from our button (SwiftUI ColorPicker only offers its own small well), continuous updates; SRGB8(UIColor) clamps extended-sRGB to 0…1. UNIT: P3 red → #FF0000, P3 gray, 4,096-color round trip. UI: swap exchanges values; tapping a field shows the picker (asserts its Grid/Spectrum/Sliders tabs; first version of the test was a false positive and was fixed).
 - 2026-11-24 · T-033 · done · SliderGroup ×2 (heading + `H° · S% · L%`, Hue/Sat/Light rows with web gradient tracks and ringed 12pt thumb). Custom drawn slider (system Slider can't take gradient tracks) with a real Slider as accessibilityRepresentation ("Foreground hue", "44 degrees"); only calls setChannel when the integer value changes; 44pt rows replace the web's 10pt gaps. UNIT: SliderMath ends/clamp/101-step round trip (+ existing model test: one slider changes only its color). UI: track tap moves FG lightness, BG hex unchanged. XCTest on iOS has no slider decrement; VoiceOver adjust is left for T-042's audit.
+- 2026-11-24 · T-034 · done · ContrastBlock: capsule WCAG/APCA switch (.isSelected, 44pt), score with numericText (WCAG = JS toFixed(2), APCA = round(|Lc|)), meter (fill min(1, r/12), AA 37.5% / AAA 58.3% tick buttons, 44pt targets), always-on ✓/✗ glyphs, Jump to AA/AAA with "Can't reach … with this hue" shown until the pair changes. UI: darkening FG then Jump to AA gives ≥ 4.5 and AA tick "passes"; APCA mode shows "78 Lc" for the initial pair.

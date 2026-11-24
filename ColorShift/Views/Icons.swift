@@ -34,6 +34,19 @@ nonisolated struct SwapIcon: Shape {
     }
 }
 
+/// Arrow: `M5 12h14m-5-5 5 5-5 5`
+nonisolated struct ArrowIcon: Shape {
+    func path(in rect: CGRect) -> Path {
+        let s = min(rect.width, rect.height) / 24
+        let o = CGPoint(x: rect.midX - 12 * s, y: rect.midY - 12 * s)
+        func p(_ x: CGFloat, _ y: CGFloat) -> CGPoint { CGPoint(x: o.x + x * s, y: o.y + y * s) }
+        var path = Path()
+        path.addLines([p(5, 12), p(19, 12)])
+        path.addLines([p(14, 7), p(19, 12), p(14, 17)])
+        return path
+    }
+}
+
 /// The jellyfish brand mark (36×36, filled; web `JellyfishMark`, PM §9): three layers.
 nonisolated struct JellyfishMark: View {
     var body: some View {

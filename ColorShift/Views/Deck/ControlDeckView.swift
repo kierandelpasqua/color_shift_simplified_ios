@@ -20,7 +20,7 @@ struct ControlDeckView: View {
                     ColorReadout()
                     SliderGroup(role: .foreground)
                     SliderGroup(role: .background)
-                    DeckSectionPlaceholder(title: "Contrast", id: "deck.contrast")
+                    ContrastBlock()
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
