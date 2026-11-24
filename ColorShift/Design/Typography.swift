@@ -34,11 +34,12 @@ struct TypeStyle: Sendable {
 }
 
 enum Typography {
-    // ios.md §8 table, in order.
-    static let tickLabel = TypeStyle(family: .dmMono, weight: .regular, size: 11, textStyle: .caption2)
-    static let segment = TypeStyle(family: .dmMono, weight: .medium, size: 11, textStyle: .caption2)
-    static let brandSubtitle = TypeStyle(family: .dmMono, weight: .regular, size: 11, textStyle: .caption2, uppercase: true)
-    static let fieldLabel = TypeStyle(family: .dmMono, weight: .regular, size: 11, textStyle: .caption2, uppercase: true)
+    // ios.md §8 table, in order. The 11pt styles scale with `.caption`, not `.caption2` as ios.md first
+    // planned: Xcode's accessibility audit reports caption2-relative custom fonts as "partially unsupported".
+    static let tickLabel = TypeStyle(family: .dmMono, weight: .regular, size: 11, textStyle: .caption)
+    static let segment = TypeStyle(family: .dmMono, weight: .medium, size: 11, textStyle: .caption)
+    static let brandSubtitle = TypeStyle(family: .dmMono, weight: .regular, size: 11, textStyle: .caption, uppercase: true)
+    static let fieldLabel = TypeStyle(family: .dmMono, weight: .regular, size: 11, textStyle: .caption, uppercase: true)
     static let button = TypeStyle(family: .dmMono, weight: .medium, size: 12, textStyle: .caption)
     static let chip = TypeStyle(family: .dmMono, weight: .medium, size: 12, textStyle: .caption)
     static let toast = TypeStyle(family: .dmMono, weight: .medium, size: 12, textStyle: .caption)

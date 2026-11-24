@@ -12,7 +12,7 @@ final class ContrastTests: XCTestCase {
         app.launchArguments += ["-openControlsOnLaunch", "YES"]
         app.launch()
         let score = app.staticTexts["contrastScore"]
-        let lightness = app.sliders["Foreground lightness"]
+        let lightness = app.descendants(matching: .any)["slider.Foreground lightness"]
         XCTAssertTrue(lightness.waitForExistence(timeout: 5))
 
         // Darken the light foreground toward the dark background until AA fails.

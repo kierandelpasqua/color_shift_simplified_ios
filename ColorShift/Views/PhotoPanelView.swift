@@ -17,5 +17,8 @@ struct PhotoPanelView: View {
         .accessibilityHint("Double-tap for next photo")
         .accessibilityValue(model.photo.id)
         .accessibilityIdentifier("photoPanel")
+        // Swipes aren't discoverable with VoiceOver (ios.md §11).
+        .accessibilityAction(named: "Next photo") { model.navigate(1) }
+        .accessibilityAction(named: "Previous photo") { model.navigate(-1) }
     }
 }

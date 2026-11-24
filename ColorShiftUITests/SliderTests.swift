@@ -8,7 +8,7 @@ final class SliderTests: XCTestCase {
         app.launch()
         let fg = app.buttons["colorField.Foreground"]
         let bg = app.buttons["colorField.Background"]
-        let slider = app.sliders["Foreground lightness"]
+        let slider = app.descendants(matching: .any)["slider.Foreground lightness"]
         XCTAssertTrue(slider.waitForExistence(timeout: 5))
         XCTAssertEqual(slider.value as? String, "87 percent")   // #F4C6D9 → l 87
 
@@ -28,7 +28,7 @@ final class SliderScrollTests: XCTestCase {
         let app = XCUIApplication()
         app.launchArguments += ["-openControlsOnLaunch", "YES"]
         app.launch()
-        let slider = app.sliders["Foreground lightness"]
+        let slider = app.descendants(matching: .any)["slider.Foreground lightness"]
         XCTAssertTrue(slider.waitForExistence(timeout: 5))
         let before = slider.value as? String
         slider.swipeUp(velocity: .slow)
@@ -42,7 +42,7 @@ final class SliderScrollTests: XCTestCase {
         let app = XCUIApplication()
         app.launchArguments += ["-openControlsOnLaunch", "YES"]
         app.launch()
-        let slider = app.sliders["Foreground lightness"]
+        let slider = app.descendants(matching: .any)["slider.Foreground lightness"]
         XCTAssertTrue(slider.waitForExistence(timeout: 5))
         let start = slider.coordinate(withNormalizedOffset: CGVector(dx: 0.9, dy: 0.5))
         let end = slider.coordinate(withNormalizedOffset: CGVector(dx: 0.4, dy: 0.5))

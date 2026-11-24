@@ -50,7 +50,24 @@ nonisolated let textPairs: [TextPair] = [
           backdrop: Swatch(rgb: 0x000000)),
 ]
 
+/// The deck is one Liquid Glass surface over the canvas; it renders at about #15171A (measured from a
+/// screenshot). #1A1C20 adds margin for lighter glass. Deck text must pass on both.
+nonisolated let glassBackdrops: [Swatch] = [Swatch(rgb: 0x15171A), Swatch(rgb: 0x1A1C20)]
+nonisolated let deckTexts: [(String, Swatch)] = [
+    ("deck", Tokens.Text.deck), ("muted", Tokens.Text.muted), ("mutedIncreased", Tokens.Text.mutedIncreased),
+    ("subtle", Tokens.Text.subtle), ("tick", Tokens.Text.tick), ("chip", Tokens.Text.chip),
+]
+
 struct TokenContrastTests {
+    @Test func deckTextPassesOnTheGlassBackground() {
+        for backdrop in glassBackdrops {
+            for (name, text) in deckTexts {
+                let ratio = ColorMath.contrast(srgb8(rgb(text)), srgb8(rgb(backdrop)))
+                #expect(ratio >= 4.5, "\(name) on #\(String(backdrop.rgb, radix: 16)): \(ratio)")
+            }
+        }
+    }
+
     @Test(arguments: textPairs)
     func textPairMeetsAA(_ pair: TextPair) {
         let backdrop = pair.backdrop.map(rgb) ?? (0, 0, 0)

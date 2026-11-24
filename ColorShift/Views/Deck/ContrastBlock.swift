@@ -95,6 +95,15 @@ struct ContrastBlock: View {
     private func jump(to target: Double) {
         let reached = model.jump(to: target)
         miss = reached ? nil : (target, pair)
+        AccessibilityNotification.Announcement(Self.announcement(ratio: model.wcag, target: target, reached: reached)).post()
+    }
+
+    /// e.g. "Contrast now 4.62 to 1, passes AA" (ios.md §11).
+    static func announcement(ratio: Double, target: Double, reached: Bool) -> String {
+        let name = target == ColorMath.aaa ? "AAA" : "AA"
+        let level = ratio >= ColorMath.aaa ? "passes AAA" : ratio >= ColorMath.aa ? "passes AA" : "fails AA"
+        let now = "Contrast now \(ColorMath.formatRatio(ratio)) to 1, \(level)"
+        return reached ? now : "Can't reach \(name) with this hue. \(now)"
     }
 }
 
@@ -163,7 +172,9 @@ private struct ContrastMeter: View {
         return Button {
             onJump(target)
         } label: {
-            VStack(spacing: 5.6) {
+            // 8pt (web 5.6): keeps the light tick line clear of the label; the accessibility audit read
+            // the line as the label's background when they touched.
+            VStack(spacing: 8) {
                 Rectangle().fill(Tokens.Line.tick.color)
                     .frame(width: Tokens.Size.tickWidth, height: Tokens.Size.tickHeight)
                 if !dynamicTypeSize.isAccessibilitySize {

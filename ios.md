@@ -363,10 +363,10 @@ The web's 8–12px labels fall below Apple's minimum. Map each style to a Dynami
 
 | Web style (px) | iOS base size (pt) | `relativeTo:` | Font |
 |---|---|---|---|
-| tick label (8) | 11 | `.caption2` | DM Mono |
-| segment (8.32) | 11 | `.caption2` | DM Mono Medium |
-| brand subtitle (8.64) | 11 | `.caption2` | DM Mono |
-| field label (8.8) | 11 | `.caption2` | DM Mono |
+| tick label (8) | 11 | `.caption` | DM Mono |
+| segment (8.32) | 11 | `.caption` | DM Mono Medium |
+| brand subtitle (8.64) | 11 | `.caption` | DM Mono |
+| field label (8.8) | 11 | `.caption` | DM Mono |
 | button (9.6) | 12 | `.caption` | DM Mono Medium |
 | chip / toast / credit (9.92) | 12 | `.caption` | DM Mono Medium |
 | section title (10.88) | 13 | `.footnote` | Manrope Bold |
@@ -375,12 +375,14 @@ The web's 8–12px labels fall below Apple's minimum. Map each style to a Dynami
 | contrast value (20) | 22 | `.title2` | DM Mono Medium |
 | specimen | computed | none (fixed to the layout, not Dynamic Type) | Manrope SemiBold |
 
+The 11pt styles scale with `.caption` (first planned as `.caption2`; Xcode's accessibility audit reports caption2-relative custom fonts as "partially unsupported").
+
 At accessibility sizes, let the deck scroll and let rows switch from `HStack` to `VStack` (`AnyLayout`).
 Aim for AX5; if a control can't fit, clamp the deck at `.dynamicTypeSize(...accessibility3)`, which still
 exceeds 200% and qualifies for the Larger Text nutrition label. Numeric readouts use `.monospacedDigit()`.
 
 ### Color fix
-`text.muted` `#777980` on `#111214` is 4.31:1. Use **`#83858C`** (5.09:1) for iOS labels and verify
+`text.muted` `#777980` on `#111214` is 4.31:1. Use **`#8E9097`** for iOS labels (5.88:1 on `#111214`; 5.63:1 on the deck's Liquid Glass, which renders the canvas as about `#15171A`). `text.subtle` and `text.tick` use the same value. (First planned as `#83858C`; Xcode's accessibility audit failed it on the glass.) and verify
 ≥ 4.5:1 with `ColorMath.contrast` in a unit test. Under **Increase Contrast**, use about **`#A9ABB1`**
 (8.16:1). (Propose the same change to the web, Q13.)
 

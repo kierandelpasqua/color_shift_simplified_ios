@@ -42,12 +42,13 @@ nonisolated enum Tokens {
         static let deck = Swatch(rgb: 0xF3F3EF)
         static let button = Swatch(rgb: 0xD4D5D2)
         static let chip = Swatch(rgb: 0x95979D)              // unselected chip, inactive segment
-        /// iOS: web `#777980` is 4.31:1 on the canvas; this is 5.09:1.
-        static let muted = Swatch(rgb: 0x83858C)
+        /// iOS: web `#777980` is 4.31:1 on the canvas. The deck's glass renders the canvas as about `#15171A`,
+        /// so this is 5.63:1 there (5.35:1 even on `#1A1C20`). `subtle` and `tick` use the same value.
+        static let muted = Swatch(rgb: 0x8E9097)
         /// iOS: muted under Increase Contrast (8.16:1).
         static let mutedIncreased = Swatch(rgb: 0xA9ABB1)
-        static let subtle = Swatch(rgb: 0x7D7F86)            // brand subtitle
-        static let tick = Swatch(rgb: 0x7F8187)              // AA/AAA tick labels
+        static let subtle = Swatch(rgb: 0x8E9097)            // brand subtitle (web #7D7F86)
+        static let tick = Swatch(rgb: 0x8E9097)              // AA/AAA tick labels (web #7F8187)
         static let toast = Swatch(rgb: 0xFFFFFF)
         static let creditName = Swatch(rgb: 0xFFFFFF)
         /// iOS: web uses 55% white, which is 3.43:1 when the credit chip sits over a white photo; 75% is 4.85:1.

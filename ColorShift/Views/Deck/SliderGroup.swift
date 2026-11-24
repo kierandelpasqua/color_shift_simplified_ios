@@ -25,7 +25,7 @@ struct SliderGroup: View {
                     .typeStyle(Typography.fieldLabel)
                     .monospacedDigit()
                     .foregroundStyle(Tokens.Text.muted(contrast).color)
-                    .accessibilityHidden(true)   // each slider announces its own value
+                    .accessibilityLabel("Hue \(hsl.h) degrees, saturation \(hsl.s) percent, lightness \(hsl.l) percent")
             }
             .padding(.bottom, 4)
             HSLSlider(label: "Hue", accessibilityName: "\(roleName) hue", unit: "degrees", value: hsl.h, maximum: 360,
@@ -85,12 +85,16 @@ private struct HSLSlider: View {
             }
             .frame(height: Tokens.Size.minHitTarget)
         }
-        .accessibilityRepresentation {
-            Slider(value: Binding(get: { Double(value) }, set: { onChange(Int($0.rounded())) }),
-                   in: 0...Double(maximum), step: 1) {
-                Text(accessibilityName)
+        // One adjustable element per row (VoiceOver swipe up/down = ±1).
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(accessibilityName)
+        .accessibilityValue("\(value) \(unit)")
+        .accessibilityAdjustableAction { direction in
+            switch direction {
+            case .increment: if value < maximum { onChange(value + 1) }
+            case .decrement: if value > 0 { onChange(value - 1) }
+            @unknown default: break
             }
-            .accessibilityValue("\(value) \(unit)")
         }
         .accessibilityIdentifier("slider.\(accessibilityName)")
     }
