@@ -73,7 +73,7 @@ Unsplash API, widgets, Shortcuts, analytics, accounts, light mode, localization 
 
 | ID | Requirement | Acceptance |
 |---|---|---|
-| FR1 | Browse 12 bundled photos in the web's order; tap = next, swipe left/right = next/previous, wraparound | One tap advances exactly one photo; swipe threshold 35pt |
+| FR1 | Browse 12 bundled photos in the web's order; tap = next, swipe left/right = next/previous, wraparound; while the drawer is open, tapping or swiping the photo or tapping the specimen closes it instead (PM §13) | One tap advances exactly one photo; swipe threshold 35pt |
 | FR2 | Photo reveal on change (opacity, scale 1.04→1, blur 8→0, 0.6 s) | Matches PM §12 M2; fade only under Reduce Motion |
 | FR3 | Derive a fg/bg pair from each photo (PM §8.9); show the hand-picked fallback first | Each photo yields a pair; within tolerance of the web |
 | FR4 | Theme filter chips, multi-select plus "All"; selected chip plays the wave | Filtering semantics match PM §6/§13 |
@@ -82,7 +82,7 @@ Unsplash API, widgets, Shortcuts, analytics, accounts, light mode, localization 
 | FR7 | Drawer opens from the mixer toggle and pushes the canvas up with the 340/36/1.7 spring | Not a sheet; canvas resizes |
 | FR8 | Copy link copies the web URL `?fg=RRGGBB&bg=RRGGBB&photo=N` (N = 0-based catalog index); toast "Copied" 1.6 s | Link opens the same pair and photo on the web |
 | FR9 | Markdown exports a `.md` file via the share sheet | Same content as the web's download |
-| FR10 | Open `colorshift://pair?...` and `https://<web>/?...` links in the app | Same validation as web; derivation skipped once |
+| FR10 | Open `colorshift://pair?...` links in the app; the parser also accepts the `https://<web>/?...` form, ready for Universal Links later (ios.md Q8) | Same validation as web; derivation skipped once |
 | FR11 | About sheet: photo credits with Unsplash links (UTM), font licenses, privacy policy link, Haptics toggle | All links work; toggle persists |
 | FR12 | Haptics per ios.md §10, off when the toggle is off | Only iPhone-playable feedback types |
 
@@ -179,7 +179,8 @@ Status: `[ ]` todo · `[x]` done · `[!]` blocked (see note) · `HUMAN` = owner 
 - **Do:** `Tokens.swift` (colors incl. muted `#83858C` and its Increase Contrast `#A9ABB1`, spacing,
   radii), `Typography.swift` (the ios.md §8 type scale via `Font.custom(_:size:relativeTo:)`, falling
   back to system fonts until H-04), `Motion.swift` (drawer spring, reveal curve/duration, chip wave
-  timings, color 0.18 s, toast 1.6 s, reduce-motion variants).
+  timings, color 0.18 s, toast 1.6 s, reduce-motion variants). Add an empty `Resources/Localizable.xcstrings`
+  String Catalog (ios.md Q12).
 - **Verify:** BUILD; UNIT includes a test that every token text/background pair is ≥ 4.5:1 (can use a
   temporary WCAG helper until T-011; replace with `ColorMath` then).
 
@@ -216,7 +217,7 @@ Status: `[ ]` todo · `[x]` done · `[!]` blocked (see note) · `HUMAN` = owner 
   photographer name/handle/page URL as optionals until H-05), `PhotoCatalog.all` in **exactly** the
   web's order.
 - **Verify:** UNIT: 12 photos; IDs equal the web list in order (hard-coded expected array copied from
-  PM §14); every fallback pair ≥ 4.5:1 or documented.
+  the web's `src/App.tsx` photo URLs; PM §14 doesn't list them); every fallback pair ≥ 4.5:1 or documented.
 
 #### H-05 · Map, review and download the photos `HUMAN`
 - [ ] For each of the 12 web IDs, find its unsplash.com photo page and photographer (the loop may
@@ -275,8 +276,9 @@ Status: `[ ]` todo · `[x]` done · `[!]` blocked (see note) · `HUMAN` = owner 
 - [ ] **Depends:** T-021 · **Refs:** ios.md §5 Liquid Glass, §6, §9 M1
 - **Do:** 48pt glass toggle in a `GlassEffectContainer`; drawer inserted in the root `VStack` with the
   340/36/1.7 spring; one glass surface for the drawer; Reduce Motion uses the short ease.
-- **Verify:** BUILD; UI test opens and closes the drawer; screenshot shows the canvas pushed up, not
-  covered.
+  While open, a tap or swipe on the photo, or a tap on the specimen, closes the drawer and doesn't navigate.
+- **Verify:** BUILD; UI test opens and closes the drawer, and checks that tapping the photo while open closes
+  it without changing the photo; screenshot shows the canvas pushed up, not covered.
 
 ### Phase 3 — Deck
 
@@ -340,7 +342,8 @@ Status: `[ ]` todo · `[x]` done · `[!]` blocked (see note) · `HUMAN` = owner 
 
 #### T-044 · Deep links
 - [ ] **Depends:** T-020, T-022 · **Refs:** ios.md §12
-- **Do:** `.onOpenURL` with one parser for `colorshift://pair?...` and `https://<web>/?...`.
+- **Do:** `.onOpenURL` for `colorshift://pair?...`; the same parser also accepts `https://<web>/?...`
+  (unit-tested; reachable once Universal Links exist).
 - **Verify:** UNIT (parser); `xcrun simctl openurl booted "colorshift://pair?fg=F2D27A&bg=1F3A5F&photo=3"`
   shows that pair and photo (screenshot).
 

@@ -152,8 +152,8 @@ Questions you should answer before or during the phase noted. Each has a recomme
 - Xcode project `ColorShift`, SwiftUI App lifecycle, **iOS 26.0** deployment target, Swift 6 language mode,
   Default Actor Isolation = MainActor with pure color math marked `nonisolated` (research/swiftui-patterns.md).
 - Test target using **Swift Testing** (`import Testing`) for the engine; XCUITest for one smoke flow.
-- **Liquid Glass:** regular, untinted glass only on the floating controls (mixer toggle, prev/next), grouped
-  in one `GlassEffectContainer`, and one glass surface for the drawer. Chips, readouts and copy buttons stay
+- **Liquid Glass:** regular, untinted glass only on the floating control (the mixer toggle; prev/next buttons
+  are Figma-only and out of v1), in a `GlassEffectContainer`, and one glass surface for the drawer. Chips, readouts and copy buttons stay
   plain (no glass on glass). See research/liquid-glass.md.
 - No third-party dependencies in v1. (`motion` and DialKit aren't needed: SwiftUI has native springs.)
 
@@ -225,7 +225,7 @@ ColorShift/
     func setChannel(_ role: ColorRole, _ channel: HSLChannel, _ value: Int)
     func jump(to target: Double)
     func swap()
-    func photoDidLoad(_ image: CGImage)       // runs PhotoSampler unless preserveLinkedColors
+    func photoDidDerive(_ pair: ColorPair)    // applies the cached PhotoSampler pair unless preserveLinkedColors
     func apply(deepLink: URL)
     var shareURL: URL { … }
     var markdown: String { … }
@@ -247,7 +247,7 @@ them synchronously.
 | Photo panel, cover-fit (PM §9) | ImageIO-downsampled `CGImage` → `Image(decorative:)`, `.scaledToFill().clipped().contentShape(Rectangle())` | `clipped()` doesn't limit the tap area, so `contentShape` is required. `accessibilityIgnoresInvertColors()`. |
 | Photo reveal on load (PM §12 M2) | Custom `Transition` (opacity, scale 1.04→1, blur 8→0) on a view keyed `.id(photoIndex)` | Bundled images load instantly, so the reveal triggers on change. |
 | Derive pair on load (PM §8.9) | `PhotoSampler.derivePair(from: cgImage)` in `.task(id: photo.id)` | Precompute and cache per photo; it's deterministic. |
-| Tap photo → next | A plain-style `Button` covering the photo | Exactly one handler (fixes the double-advance, §14); optionally ignore taps until the reveal's completion. |
+| Tap photo → next | A plain-style `Button` covering the photo | Exactly one handler (fixes the double-advance, §14); optionally ignore taps until the reveal's completion. **While the drawer is open, a tap or swipe on the photo, or a tap on the specimen, closes the drawer instead** (PM §13). |
 | Swipe | `DragGesture(minimumDistance: 10)`: translation.width > 35 → previous, < −35 → next | Taps and drags are separate gestures on iOS, so no click-after-touch problem. |
 | ←/→, F keys | `.keyboardShortcut` (hardware keyboards) | Low priority on iPhone. |
 | Mixer toggle (48×48) | `Button` with regular, untinted `.glassEffect` in a `GlassEffectContainer`, pinned bottom-leading | Keep 48pt (above the 44pt minimum). Don't tint with the photo colors. |
@@ -451,8 +451,9 @@ optional). Don't fire them on every slider step.
 - **Share link (v1):** keep the web format so links work in a browser:
   `https://<web-host>/?fg=RRGGBB&bg=RRGGBB&photo=N` (hex without `#`; `N` is the 0-based catalog
   position, identical to the web per I9). Needs the fixed production web URL (Q7).
-- **Opening links in the app (v1):** custom scheme `colorshift://pair?fg=…&bg=…&photo=…` handled by
-  `onOpenURL` (useful for testing and Shortcuts; Apple recommends Universal Links, and scheme collisions are
+- **Opening links in the app (v1):** only the custom scheme `colorshift://pair?fg=…&bg=…&photo=…`, handled by
+  `onOpenURL`. The parser also accepts the `https://<web-host>/?…` form so Universal Links need no new code,
+  but v1 can't receive those links (Q8) (useful for testing and Shortcuts; Apple recommends Universal Links, and scheme collisions are
   undefined).
 - **Later:** Universal Links on a custom domain with an `apple-app-site-association` file, so the same
   web link opens the app if installed. A `figma.site` host can't serve that file; a tiny site on a domain

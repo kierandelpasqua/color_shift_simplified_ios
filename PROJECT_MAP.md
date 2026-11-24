@@ -1,6 +1,8 @@
 # Color Shift — Project Map
 
-> **Snapshot** of the web repo's `PROJECT_MAP.md`, copied 2026-11-24 for the iOS port. The web repo's
+> **Snapshot** of the web repo's `PROJECT_MAP.md`, copied 2026-11-24 for the iOS port and re-checked
+> against web commit `3dc46c2` (identical apart from paths; the "uncommitted work" noted below is now
+> committed as `e0509a1` and `3dc46c2`). The web repo's
 > copy is canonical for web behavior; when it changes, re-copy this file (see `ios.md` §19).
 > Relative links in this file point into the web repo and won't resolve here.
 
