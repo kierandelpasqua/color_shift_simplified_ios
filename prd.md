@@ -212,7 +212,7 @@ Status: `[ ]` todo · `[x]` done · `[!]` blocked (see note) · `HUMAN` = owner 
 - **Verify:** UNIT: the 9 vectors in ios.md §7, tolerance 0.001.
 
 #### T-013 · Photo model and catalog (metadata)
-- [ ] **Depends:** T-010 · **Refs:** PM §14; ios.md I9, §13
+- [x] **Depends:** T-010 · **Refs:** PM §14; ios.md I9, §13
 - **Do:** `Theme`, `Photo` (id = web image ID, file name, theme, alt, fallback fg/bg, aspect,
   photographer name/handle/page URL as optionals until H-05), `PhotoCatalog.all` in **exactly** the
   web's order.
@@ -402,3 +402,4 @@ Append one line per iteration: `YYYY-MM-DD · T-0xx · done|blocked · one-line 
 - 2026-11-24 · T-010 · done · SRGB8 + HSL with JS rounding; PM §8.12 vectors, 16 invalid inputs, 4,096-color round trip pass. One-off exhaustive check: identical to the web's JS for all 2^24 rgb→hsl and all 361×101×101 hsl→hex. Codable as "#RRGGBB".
 - 2026-11-24 · T-011 · done · ColorMath (luminance, contrast, tune → (color, reachedTarget), layoutShares, Meter incl. Jump target); PM §8.12 vectors + unreachable-7:1 miss pass; token test now uses ColorMath. One-off: tune/contrast identical to web JS on 200k random pairs.
 - 2026-11-24 · T-012 · done · APCA 0.0.98G-4g (signed Lc, apca-w3 constants, attribution header) + displayValue round(|Lc|); 9 ios.md §7 vectors within 0.001, input-range, ΔY and Lc-10 clip edge cases pass.
+- 2026-11-24 · T-013 · done · Theme, Photo, ColorPair, PhotoCatalog (web order, IDs from web App.tsx). Photographer name/handle filled from the web source (only the Unsplash page URL is optional until H-05). All 12 fallback pairs ≥ 4.5:1; visible(for:) and full-catalog index tested.
