@@ -200,7 +200,7 @@ Status: `[ ]` todo · `[x]` done · `[!]` blocked (see note) · `HUMAN` = owner 
   12-bit grid colors through hex.
 
 #### T-011 · `ColorMath`
-- [ ] **Depends:** T-010 · **Refs:** PM §8.5, §8.6, §8.8, §8.10, §8.11, §8.12
+- [x] **Depends:** T-010 · **Refs:** PM §8.5, §8.6, §8.8, §8.10, §8.11, §8.12
 - **Do:** WCAG luminance (0.04045), `contrast`, `tuneToContrast` returning `(color, reachedTarget)`,
   `layoutShares`, meter geometry.
 - **Verify:** UNIT: all PM §8.12 vectors for these functions; a case where tune can't reach 7:1 reports
@@ -400,3 +400,4 @@ Append one line per iteration: `YYYY-MM-DD · T-0xx · done|blocked · one-line 
 - 2026-11-24 · T-002 · done · CLAUDE.md via /init: commands (incl. single-test syntax), loop summary, architecture, conventions, web-repo read-only rule. BUILD green, links resolve.
 - 2026-11-24 · T-003 · done · Tokens/Typography/Motion + empty String Catalog; 16 token text pairs ≥ 4.5:1 (temporary WCAG helper in tests until T-011). iOS fix: credit label 55%→75% white (3.43→4.85:1 over white photos). System-font fallback until T-004.
 - 2026-11-24 · T-010 · done · SRGB8 + HSL with JS rounding; PM §8.12 vectors, 16 invalid inputs, 4,096-color round trip pass. One-off exhaustive check: identical to the web's JS for all 2^24 rgb→hsl and all 361×101×101 hsl→hex. Codable as "#RRGGBB".
+- 2026-11-24 · T-011 · done · ColorMath (luminance, contrast, tune → (color, reachedTarget), layoutShares, Meter incl. Jump target); PM §8.12 vectors + unreachable-7:1 miss pass; token test now uses ColorMath. One-off: tune/contrast identical to web JS on 200k random pairs.

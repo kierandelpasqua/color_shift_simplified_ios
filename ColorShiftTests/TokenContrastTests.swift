@@ -1,22 +1,5 @@
-import Foundation
 import Testing
 @testable import ColorShift
-
-/// TEMPORARY WCAG 2.x helper (PM §8.5–8.6). Replace with `ColorMath` in T-011.
-private enum TemporaryWCAG {
-    static func luminance(_ r: Double, _ g: Double, _ b: Double) -> Double {
-        func lin(_ c: Double) -> Double {
-            let v = c / 255
-            return v <= 0.04045 ? v / 12.92 : pow((v + 0.055) / 1.055, 2.4)
-        }
-        return 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b)
-    }
-
-    static func contrast(_ a: (Double, Double, Double), _ b: (Double, Double, Double)) -> Double {
-        let la = luminance(a.0, a.1, a.2), lb = luminance(b.0, b.1, b.2)
-        return (max(la, lb) + 0.05) / (min(la, lb) + 0.05)
-    }
-}
 
 /// Composites a swatch over an opaque background (source-over in sRGB, like the browser).
 private func composite(_ top: Swatch, over bottom: (Double, Double, Double)) -> (Double, Double, Double) {
@@ -24,6 +7,12 @@ private func composite(_ top: Swatch, over bottom: (Double, Double, Double)) -> 
     return (Double(top.red) * a + bottom.0 * (1 - a),
             Double(top.green) * a + bottom.1 * (1 - a),
             Double(top.blue) * a + bottom.2 * (1 - a))
+}
+
+/// Rounds a composited color to 8 bits, as the screen would show it.
+private func srgb8(_ c: (Double, Double, Double)) -> SRGB8 {
+    func q(_ v: Double) -> UInt8 { UInt8(min(255, max(0, v.rounded()))) }
+    return SRGB8(r: q(c.0), g: q(c.1), b: q(c.2))
 }
 
 private func rgb(_ s: Swatch) -> (Double, Double, Double) { composite(s, over: (0, 0, 0)) }
@@ -67,15 +56,8 @@ struct TokenContrastTests {
         let backdrop = pair.backdrop.map(rgb) ?? (0, 0, 0)
         let background = composite(pair.background, over: backdrop)
         let text = composite(pair.text, over: background)
-        let ratio = TemporaryWCAG.contrast(text, background)
+        let ratio = ColorMath.contrast(srgb8(text), srgb8(background))
         #expect(ratio >= 4.5, "\(pair.name): \(ratio)")
-    }
-
-    @Test func helperMatchesWebVectors() {
-        // PM §8.12: sanity-check the temporary helper itself.
-        #expect(abs(TemporaryWCAG.contrast((255, 255, 255), (0, 0, 0)) - 21) < 0.001)
-        #expect(abs(TemporaryWCAG.contrast((0x77, 0x79, 0x80), (0x11, 0x12, 0x14)) - 4.312) < 0.001)
-        #expect(abs(TemporaryWCAG.contrast((0xF2, 0xD2, 0x7A), (0x1F, 0x3A, 0x5F)) - 7.806) < 0.001)
     }
 
     @Test func mutedFollowsIncreaseContrast() {
