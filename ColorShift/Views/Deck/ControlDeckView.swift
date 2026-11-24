@@ -18,8 +18,8 @@ struct ControlDeckView: View {
 
                 VStack(alignment: .leading, spacing: 24) {
                     ColorReadout()
-                    DeckSectionPlaceholder(title: "FG mix", id: "deck.fgMix")
-                    DeckSectionPlaceholder(title: "BG mix", id: "deck.bgMix")
+                    SliderGroup(role: .foreground)
+                    SliderGroup(role: .background)
                     DeckSectionPlaceholder(title: "Contrast", id: "deck.contrast")
                 }
             }
