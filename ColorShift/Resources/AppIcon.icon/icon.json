@@ -1,0 +1,39 @@
+{
+  "fill" : {
+    "automatic-gradient" : "srgb:0.16471,0.17255,0.19216,1.00000"
+  },
+  "groups" : [
+    {
+      "layers" : [
+        {
+          "glass" : true,
+          "image-name" : "rim.svg",
+          "name" : "rim"
+        },
+        {
+          "glass" : true,
+          "image-name" : "bell.svg",
+          "name" : "bell"
+        },
+        {
+          "glass" : true,
+          "image-name" : "body.svg",
+          "name" : "body"
+        }
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.4
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "squares" : [
+      "iOS"
+    ]
+  }
+}
