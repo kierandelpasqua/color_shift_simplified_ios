@@ -234,7 +234,7 @@ Status: `[ ]` todo · `[x]` done · `[!]` blocked (see note) · `HUMAN` = owner 
 - **Verify:** UNIT: every photo has a credit and a file in the bundle; aspects within 0.5% of measured.
 
 #### T-015 · `PhotoSampler`
-- [ ] **Depends:** T-011, T-014 · **Refs:** ios.md §7 Sampling; PM §8.9; research/color-apca-image-sampling.md
+- [x] **Depends:** T-011, T-014 · **Refs:** ios.md §7 Sampling; PM §8.9; research/color-apca-image-sampling.md
 - **Do:** ImageIO thumbnail → 32×32 RGBA sRGB `CGContext` (`premultipliedLast`) → un-premultiply →
   PM §8.9 algorithm → `ColorPair`. `@concurrent`, `nonisolated`. Cache results per photo.
 - **Verify:** UNIT: synthetic solid and two-tone images give expected pairs; every catalog photo
@@ -425,3 +425,4 @@ Append one line per iteration: `YYYY-MM-DD · T-0xx · done|blocked · one-line 
 - 2026-11-25 · H-07 · drafted · docs/privacy-policy.md (no data collected; haptics setting on device only; no network). URL set in AppConfig. Owner still enables GitHub Pages (Settings → Pages → main, /docs) before ticking.
 - 2026-11-25 · H-06 · drafted · ColorShift/Resources/AppIcon.icon: three glass layers (body, bell, rim) from the jellyfish mark on a dark automatic gradient; ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon. actool compiles it; ictool renders Default/Dark/ClearLight/TintedDark (docs/screens/icon/h06-renditions.png); shows on the simulator home screen as "KDP Color". Owner polishes in Icon Composer, then ticks.
 - 2026-11-25 · T-014 · done · Aspects are bundled-file pixel ratios (e.g. 2400/1543); all stay in the web's layout buckets. Photo.photographerURL and Photo.unsplashURL carry utm_source=color_shift&utm_medium=referral. Tests: every photo is a bundle file ≥ 2000px long side (ImageIO properties only), aspect within 0.5%, credit present. 93 unit tests green.
+- 2026-11-25 · T-015 · done · PhotoSampler: ImageIO thumbnail (256px) → 32×32 sRGB premultipliedLast context → un-premultiply → every 8th pixel → most saturated (stable) → partner tuned to 4.5:1, with reachedTarget. Interpolation .medium, not .high: .high rings at edges and invents over-saturated samples (caught by the two-tone test). DerivedPairCache actor caches per photo. Expected synthetic pairs computed by the web's own JS in Node. All 12 photos derive a pair; 101 unit tests green.
