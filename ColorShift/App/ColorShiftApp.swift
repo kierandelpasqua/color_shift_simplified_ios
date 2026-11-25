@@ -11,6 +11,8 @@ struct ColorShiftApp: App {
                 .modifier(HapticsModifier())
                 .environment(model)
                 .preferredColorScheme(.dark)
+                // `colorshift://pair?fg=…&bg=…&photo=N` (and the web's https form, once Universal Links exist).
+                .onOpenURL { model.apply(deepLink: $0) }
                 #if DEBUG
                 .onAppear {
                     // Screenshots: `xcrun simctl launch <device> <bundle id> -openControlsOnLaunch YES`.

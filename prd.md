@@ -351,7 +351,7 @@ Status: `[ ]` todo · `[x]` done · `[!]` blocked (see note) · `HUMAN` = owner 
 - **Verify:** BUILD; screenshots with each setting on (simulator environment overrides) in `docs/screens/a11y/`.
 
 #### T-044 · Deep links
-- [ ] **Depends:** T-020, T-022 · **Refs:** ios.md §12
+- [x] **Depends:** T-020, T-022 · **Refs:** ios.md §12
 - **Do:** `.onOpenURL` for `colorshift://pair?...`; the same parser also accepts `https://<web>/?...`
   (unit-tested; reachable once Universal Links exist).
 - **Verify:** UNIT (parser); `xcrun simctl openurl booted "colorshift://pair?fg=F2D27A&bg=1F3A5F&photo=3"`
@@ -438,3 +438,4 @@ Append one line per iteration: `YYYY-MM-DD · T-0xx · done|blocked · one-line 
 - 2026-11-25 · T-016 · blocked · Web pairs captured (ColorShiftTests/Fixtures/web-derived-pairs.json, headless Chrome via CDP, web code + web image URLs). 6/12 photos exceed ±6 per channel; no resampling variant gets below 4/12. Max-saturation pick is unstable across resamplers. Needs an owner decision.
 - 2026-11-25 · T-016 · done · Owner chose exact parity: PhotoCatalog carries the 12 web-captured pairs (Photo.derived); DerivedPairCache returns them (reachedTarget from the real ratio), PhotoSampler only when absent. Tests: catalog table == fixture; every applied pair within ±6 of the web (exact). Note: 4 web pairs are below 4.5:1 (#1 2.15, #5 3.07, #9 2.55, #11 2.67) because the web's light partner can't reach AA on mid-light bases; iOS reports these as misses. 104 unit tests green.
 - 2026-11-25 · T-022 · done · PhotoPanelView: ImageIO downsample to the cover-fit pixel size (128px buckets, 4-image actor cache), scaledToFill + clipped + contentShape; plain Button tap → next; DragGesture(10) as highPriorityGesture so a swipe never also taps (±35pt → ±1; shorter drags only close an open drawer); M2 reveal as an insertion-only Transition keyed by photo (fade only under Reduce Motion); fallback pair, then the derived pair via DerivedPairCache; credit chip (Link to photographer with UTM, ≥44pt, outside the button, fixedSize after the audit flagged 'Text clipped'). UI: one tap = one photo, swipes ±1 with wrap, swipe with drawer open only closes. 7 older UI tests that check exact launch colors now pass DEBUG -disablePhotoDerivation (assertions unchanged). 24 UI, 104 unit green. docs/screens/t022-photo-panel.png.
+- 2026-11-25 · T-044 · done · .onOpenURL → model.apply(deepLink:) (parser unit-tested since T-020, both colorshift:// and https forms). simctl openurl leaves iOS's "Open in KDP Color?" prompt, so the Verify runs as DeepLinkTests (opens the link, taps Open): cold and warm starts show photo 3 with #F2D27A on #1F3A5F, and photo 3's derived pair doesn't overwrite them. Screenshots docs/screens/t044-cold.png, t044-warm.png.
