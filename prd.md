@@ -44,6 +44,7 @@ iteration by hand with "Do the next prd.md task".
 |---|---|---|
 | App name | **KDP Color** (App Store and home screen); the in-app brand stays "Color Shift" | ios.md Q1, H-01 |
 | Bundle ID | `com.kierandelpasqua.colorshift` (tests: `.tests`, `.uitests`) | ios.md Q1, H-01 |
+| Developer Program | Not enrolled yet (H-02, later); EU DSA status: **non-trader** | ios.md Q2, H-02 |
 | Web base URL for share links | _TBD (H-03)_ | ios.md Q7 |
 | Privacy policy URL | _TBD (H-07)_ | ios.md Q15 |
 | Deployment target | iOS 26.0, iPhone only, portrait, dark | ios.md I2, Q5, Q6 |
