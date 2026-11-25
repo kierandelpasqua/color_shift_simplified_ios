@@ -221,7 +221,7 @@ Status: `[ ]` todo · `[x]` done · `[!]` blocked (see note) · `HUMAN` = owner 
   the web's `src/App.tsx` photo URLs; PM §14 doesn't list them); every fallback pair ≥ 4.5:1 or documented.
 
 #### H-05 · Map, review and download the photos `HUMAN`
-- [ ] For each of the 12 web IDs, find its unsplash.com photo page and photographer (the loop may
+- [x] For each of the 12 web IDs, find its unsplash.com photo page and photographer (the loop may
   draft this table in `docs/photo-sources.md` beforehand). Check each photo for recognizable people,
   brands or artworks. Download ~2400px JPEGs into `ColorShift/Resources/Photos/<id>.jpg`.
   (ios.md §13, §16; research/unsplash.md)
@@ -421,3 +421,4 @@ Append one line per iteration: `YYYY-MM-DD · T-0xx · done|blocked · one-line 
 - 2026-11-24 · T-043 · done · Increase Contrast: secondary labels → #A9ABB1, chip/swap borders #6A6C73 at 1.5pt (≥ 3:1 on the glass). Bold Text: each style steps up one bundled weight (specimen → Manrope Bold); measured +21–22% text ink on DM Mono Regular labels, heaviest faces unchanged. Smart Invert: photo, specimen, swatches and slider tracks excluded (iOS doesn't invert dark-mode apps, so not visible in screenshots). Differentiate Without Color: ✓/✗ always on (screenshot identical to baseline by design). Reduce Transparency: system glass turns solid (mixer toggle). Screenshots for all six in docs/screens/a11y/ (simctl ui + com.apple.Accessibility defaults).
 - 2026-11-24 · T-050 · done · PrivacyInfo.xcprivacy: no tracking, no tracking domains, no collected data; UserDefaults with CA92.1 (haptics preference). plutil lint OK; file present in the built .app; unit test parses the bundled manifest. No other required-reason APIs used (no file timestamps, uptime or disk space).
 - 2026-11-25 · H-01 · done (owner) · Name "KDP Color" (App Store and home-screen display name; in-app brand stays "Color Shift"); bundle ID com.kierandelpasqua.colorshift (+ .tests, .uitests) in project.yml and AppConfig. 89 unit tests green.
+- 2026-11-25 · H-05 · done (owner-approved download) · 12 JPEGs in ColorShift/Resources/Photos at 2400px long side (6.6 MB); docs/photo-sources.md table with photographers (from the web), review: portraits #4/#5 kept, minor signage in #2/#3 accepted. Photo page links optional; credits link to the photographer profile, as on the web.
