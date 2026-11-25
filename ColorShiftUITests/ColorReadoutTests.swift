@@ -4,7 +4,7 @@ final class ColorReadoutTests: XCTestCase {
     @MainActor
     func testSwapExchangesColors() {
         let app = XCUIApplication()
-        app.launchArguments += ["-openControlsOnLaunch", "YES"]
+        app.launchArguments += ["-openControlsOnLaunch", "YES", "-disablePhotoDerivation", "YES"]
         app.launch()
         let fg = app.buttons["colorField.Foreground"]
         let bg = app.buttons["colorField.Background"]
@@ -20,7 +20,7 @@ final class ColorReadoutTests: XCTestCase {
     @MainActor
     func testTappingAFieldOpensTheSystemColorPicker() {
         let app = XCUIApplication()
-        app.launchArguments += ["-openControlsOnLaunch", "YES"]
+        app.launchArguments += ["-openControlsOnLaunch", "YES", "-disablePhotoDerivation", "YES"]
         app.launch()
         let fg = app.buttons["colorField.Foreground"]
         XCTAssertTrue(fg.waitForExistence(timeout: 5))

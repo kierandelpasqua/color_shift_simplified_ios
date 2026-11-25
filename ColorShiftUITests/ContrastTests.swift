@@ -9,7 +9,7 @@ final class ContrastTests: XCTestCase {
     @MainActor
     func testJumpToAAReachesAtLeast4_5() {
         let app = XCUIApplication()
-        app.launchArguments += ["-openControlsOnLaunch", "YES"]
+        app.launchArguments += ["-openControlsOnLaunch", "YES", "-disablePhotoDerivation", "YES"]
         app.launch()
         let score = app.staticTexts["contrastScore"]
         let lightness = app.descendants(matching: .any)["slider.Foreground lightness"]
@@ -34,7 +34,7 @@ final class ContrastTests: XCTestCase {
     @MainActor
     func testAPCAModeShowsLc() {
         let app = XCUIApplication()
-        app.launchArguments += ["-openControlsOnLaunch", "YES"]
+        app.launchArguments += ["-openControlsOnLaunch", "YES", "-disablePhotoDerivation", "YES"]
         app.launch()
         let apca = app.buttons["mode.APCA"]
         XCTAssertTrue(apca.waitForExistence(timeout: 5))

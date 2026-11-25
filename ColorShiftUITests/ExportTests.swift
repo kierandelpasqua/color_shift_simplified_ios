@@ -4,7 +4,7 @@ final class ExportUITests: XCTestCase {
     @MainActor
     func testCopyLinkShowsToast() {
         let app = XCUIApplication()
-        app.launchArguments += ["-openControlsOnLaunch", "YES"]
+        app.launchArguments += ["-openControlsOnLaunch", "YES", "-disablePhotoDerivation", "YES"]
         app.launch()
         let copy = app.buttons["copyLinkButton"]
         XCTAssertTrue(copy.waitForExistence(timeout: 5))
@@ -19,7 +19,7 @@ final class ExportUITests: XCTestCase {
     @MainActor
     func testMarkdownOpensShareSheet() {
         let app = XCUIApplication()
-        app.launchArguments += ["-openControlsOnLaunch", "YES"]
+        app.launchArguments += ["-openControlsOnLaunch", "YES", "-disablePhotoDerivation", "YES"]
         app.launch()
         let markdown = app.buttons["markdownButton"]
         XCTAssertTrue(markdown.waitForExistence(timeout: 5))

@@ -4,7 +4,7 @@ final class SliderTests: XCTestCase {
     @MainActor
     func testForegroundLightnessSliderChangesOnlyForeground() {
         let app = XCUIApplication()
-        app.launchArguments += ["-openControlsOnLaunch", "YES"]
+        app.launchArguments += ["-openControlsOnLaunch", "YES", "-disablePhotoDerivation", "YES"]
         app.launch()
         let fg = app.buttons["colorField.Foreground"]
         let bg = app.buttons["colorField.Background"]
@@ -26,7 +26,7 @@ final class SliderScrollTests: XCTestCase {
     @MainActor
     func testVerticalSwipeOnSliderDoesNotChangeColor() {
         let app = XCUIApplication()
-        app.launchArguments += ["-openControlsOnLaunch", "YES"]
+        app.launchArguments += ["-openControlsOnLaunch", "YES", "-disablePhotoDerivation", "YES"]
         app.launch()
         let slider = app.descendants(matching: .any)["slider.Foreground lightness"]
         XCTAssertTrue(slider.waitForExistence(timeout: 5))
@@ -40,7 +40,7 @@ final class SliderScrollTests: XCTestCase {
     @MainActor
     func testHorizontalDragMovesSlider() {
         let app = XCUIApplication()
-        app.launchArguments += ["-openControlsOnLaunch", "YES"]
+        app.launchArguments += ["-openControlsOnLaunch", "YES", "-disablePhotoDerivation", "YES"]
         app.launch()
         let slider = app.descendants(matching: .any)["slider.Foreground lightness"]
         XCTAssertTrue(slider.waitForExistence(timeout: 5))

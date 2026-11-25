@@ -55,7 +55,7 @@ final class AccessibilityAuditTests: XCTestCase {
     @MainActor
     func testSlidersAreAdjustableWithRoleInLabel() {
         let app = XCUIApplication()
-        app.launchArguments += ["-openControlsOnLaunch", "YES"]
+        app.launchArguments += ["-openControlsOnLaunch", "YES", "-disablePhotoDerivation", "YES"]
         app.launch()
         let slider = app.descendants(matching: .any)["slider.Foreground lightness"]
         XCTAssertTrue(slider.waitForExistence(timeout: 5))
