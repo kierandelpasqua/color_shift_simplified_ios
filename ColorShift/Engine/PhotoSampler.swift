@@ -110,9 +110,16 @@ actor DerivedPairCache {
 
     private var results: [Photo.ID: PhotoSampler.Result] = [:]
 
-    /// The photo's derived pair, sampling its bundled file the first time. `nil` if it can't be read.
+    /// The photo's derived pair: the web's captured pair when the catalog has one (T-016), otherwise its
+    /// bundled file sampled once. `nil` if it can't be read.
     func result(for photo: Photo, in bundle: Bundle = .main) async -> PhotoSampler.Result? {
         if let cached = results[photo.id] { return cached }
+        if let pair = photo.derived {
+            let result = PhotoSampler.Result(
+                pair: pair, reachedTarget: ColorMath.contrast(pair.foreground, pair.background) >= ColorMath.aa)
+            results[photo.id] = result
+            return result
+        }
         guard let url = bundle.url(forResource: photo.id, withExtension: "jpg"),
               let result = await PhotoSampler.derive(contentsOf: url) else { return nil }
         results[photo.id] = result

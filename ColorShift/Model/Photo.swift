@@ -8,6 +8,9 @@ nonisolated struct Photo: Identifiable, Hashable, Sendable {
     let alt: String
     /// Hand-picked pair shown before the derived pair (PM §8.9).
     let fallback: ColorPair
+    /// The pair the web derives from this photo (T-016). Used instead of sampling: the web keeps the single
+    /// most saturated pixel, so iOS resampling can't reproduce it reliably. `nil` → `PhotoSampler`.
+    var derived: ColorPair?
     /// Width / height, measured from the bundled file (T-014; the web hand-enters approximate values).
     let aspect: Double
     let photographer: String

@@ -3,7 +3,8 @@ import Testing
 @testable import ColorShift
 
 /// iOS-derived pairs vs the web's, captured in `Fixtures/web-derived-pairs.json` (T-016; ios.md §15).
-/// Browsers and Core Graphics resample differently, so colors are compared per channel with a tolerance.
+/// Sampling on iOS can't reproduce the web's single-pixel pick (T-016: 6/12 photos off by up to 68 per channel),
+/// so the app uses the web's captured pairs from the catalog; this checks what the app actually applies.
 struct WebParityTests {
 
     struct Fixture: Decodable {
@@ -28,15 +29,25 @@ struct WebParityTests {
         #expect(Self.fixture.pairs.map(\.id) == PhotoCatalog.all.map(\.id))
     }
 
-    @Test(.disabled("T-016 blocked: 6 of 12 photos exceed ±6 (see prd.md T-016); owner to decide"), arguments: PhotoCatalog.all)
+    /// What the app applies for each photo (`DerivedPairCache`, T-016 decision: the web's captured pairs).
+    @Test(arguments: PhotoCatalog.all)
     func derivedPairMatchesWeb(_ photo: Photo) async throws {
         let web = try #require(Self.fixture.pairs.first { $0.id == photo.id })
-        let url = try #require(Bundle.main.url(forResource: photo.id, withExtension: "jpg"))
-        let pair = try #require(await PhotoSampler.derive(contentsOf: url)).pair
-        let bg = Self.distance(pair.background, SRGB8(hex: web.background)!)
-        let fg = Self.distance(pair.foreground, SRGB8(hex: web.foreground)!)
-        let summary = "\(photo.id): iOS \(pair.background.hex)/\(pair.foreground.hex) vs web \(web.background)/\(web.foreground) (Δbg \(bg), Δfg \(fg))"
-        #expect(bg <= Self.tolerance && fg <= Self.tolerance, "\(summary)")
+        let result = try #require(await DerivedPairCache().result(for: photo))
+        let bg = Self.distance(result.pair.background, SRGB8(hex: web.background)!)
+        let fg = Self.distance(result.pair.foreground, SRGB8(hex: web.foreground)!)
+        #expect(bg <= Self.tolerance && fg <= Self.tolerance,
+                "\(photo.id): iOS \(result.pair.background.hex)/\(result.pair.foreground.hex) vs web \(web.background)/\(web.foreground)")
+        // The web misses 4.5:1 silently on some photos; iOS reports it (ios.md §14).
+        #expect(result.reachedTarget == (ColorMath.contrast(result.pair.foreground, result.pair.background) >= ColorMath.aa))
+    }
+
+    /// The catalog's `derived` table is exactly the captured fixture.
+    @Test func catalogTableEqualsFixture() {
+        for (photo, web) in zip(PhotoCatalog.all, Self.fixture.pairs) {
+            #expect(photo.derived?.background.hex == web.background, "\(photo.id)")
+            #expect(photo.derived?.foreground.hex == web.foreground, "\(photo.id)")
+        }
     }
 }
 

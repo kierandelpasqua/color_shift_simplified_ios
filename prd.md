@@ -241,7 +241,7 @@ Status: `[ ]` todo · `[x]` done · `[!]` blocked (see note) · `HUMAN` = owner 
   derives a pair that's ≥ 4.5:1 or reports a miss.
 
 #### T-016 · Web parity fixture for derived pairs
-- [!] **Depends:** T-015 · **Refs:** ios.md §15
+- [x] **Depends:** T-015 · **Refs:** ios.md §15
 - **Do:** Run the web app locally (see the web repo's CLAUDE.md), and for each photo record the derived
   `--foreground`/`--background` into `ColorShiftTests/Fixtures/web-derived-pairs.json`.
 - **Verify:** UNIT: each iOS-derived color is within ΔE (or per-channel ±6) of the web value; failures
@@ -255,6 +255,8 @@ Status: `[ ]` todo · `[x]` done · `[!]` blocked (see note) · `HUMAN` = owner 
   images, never got below 4 failures (worst 69). Cause: the algorithm keeps the **single** most saturated of 128
   pixels, so tiny resampling differences change which pixel wins (photo 3: iOS #4096B7 vs web #267A73). Fixture and
   test are committed; the per-photo test is `.disabled` until the owner decides (no tolerance change).
+- **Resolved (owner, 2026-11-25):** iOS uses the web's captured pairs (`Photo.derived`, from the fixture) and keeps
+  `PhotoSampler` as the fallback for photos without one. The test now checks what the app applies.
 
 #### T-020 · `AppModel`
 - [x] **Depends:** T-011, T-012, T-013 · **Refs:** ios.md §5 State; PM §6
@@ -434,3 +436,4 @@ Append one line per iteration: `YYYY-MM-DD · T-0xx · done|blocked · one-line 
 - 2026-11-25 · T-014 · done · Aspects are bundled-file pixel ratios (e.g. 2400/1543); all stay in the web's layout buckets. Photo.photographerURL and Photo.unsplashURL carry utm_source=color_shift&utm_medium=referral. Tests: every photo is a bundle file ≥ 2000px long side (ImageIO properties only), aspect within 0.5%, credit present. 93 unit tests green.
 - 2026-11-25 · T-015 · done · PhotoSampler: ImageIO thumbnail (256px) → 32×32 sRGB premultipliedLast context → un-premultiply → every 8th pixel → most saturated (stable) → partner tuned to 4.5:1, with reachedTarget. Interpolation .medium, not .high: .high rings at edges and invents over-saturated samples (caught by the two-tone test). DerivedPairCache actor caches per photo. Expected synthetic pairs computed by the web's own JS in Node. All 12 photos derive a pair; 101 unit tests green.
 - 2026-11-25 · T-016 · blocked · Web pairs captured (ColorShiftTests/Fixtures/web-derived-pairs.json, headless Chrome via CDP, web code + web image URLs). 6/12 photos exceed ±6 per channel; no resampling variant gets below 4/12. Max-saturation pick is unstable across resamplers. Needs an owner decision.
+- 2026-11-25 · T-016 · done · Owner chose exact parity: PhotoCatalog carries the 12 web-captured pairs (Photo.derived); DerivedPairCache returns them (reachedTarget from the real ratio), PhotoSampler only when absent. Tests: catalog table == fixture; every applied pair within ±6 of the web (exact). Note: 4 web pairs are below 4.5:1 (#1 2.15, #5 3.07, #9 2.55, #11 2.67) because the web's light partner can't reach AA on mid-light bases; iOS reports these as misses. 104 unit tests green.
