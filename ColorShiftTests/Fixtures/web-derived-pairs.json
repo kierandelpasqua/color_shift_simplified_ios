@@ -1,0 +1,65 @@
+{
+  "source": "Web deriveFromPhoto (src/App.tsx, PM \u00a78.9) run in headless Chrome 2026-11-25 on the exact image URLs the web loads (auto=format&fit=crop&w=1800&q=88, served as AVIF). Harness: the web's own color functions + canvas drawImage(img,0,0,32,32). Regenerate if the web's photos or sampling change.",
+  "pairs": [
+    {
+      "id": "photo-1500964757637-c85e8a162699",
+      "background": "#F2B356",
+      "foreground": "#3B2A11"
+    },
+    {
+      "id": "photo-1615729947596-a598e5de0ab3",
+      "background": "#C2B313",
+      "foreground": "#FFFFFF"
+    },
+    {
+      "id": "photo-1787012055240-859e0bd53875",
+      "background": "#FCFEFF",
+      "foreground": "#112D3B"
+    },
+    {
+      "id": "photo-1787015163482-2e06e9091258",
+      "background": "#267A73",
+      "foreground": "#E9F2FB"
+    },
+    {
+      "id": "photo-1557053910-d9eadeed1c58",
+      "background": "#9E1C08",
+      "foreground": "#F6EACB"
+    },
+    {
+      "id": "photo-1617690032703-f991ed0e0ee6",
+      "background": "#00A95F",
+      "foreground": "#FFFFFF"
+    },
+    {
+      "id": "photo-1534599864649-c66531e112eb",
+      "background": "#0F2C4A",
+      "foreground": "#CFCBF6"
+    },
+    {
+      "id": "photo-1689758380989-f92c89619a2d",
+      "background": "#097B6A",
+      "foreground": "#E5F1FA"
+    },
+    {
+      "id": "photo-1550859492-d5da9d8e45f3",
+      "background": "#0056B9",
+      "foreground": "#D4CFF7"
+    },
+    {
+      "id": "photo-1548746450-48dbc4747adc",
+      "background": "#FC7B73",
+      "foreground": "#FFFFFF"
+    },
+    {
+      "id": "photo-1760445798933-4d3945d0b06b",
+      "background": "#5F3402",
+      "foreground": "#F1F6CB"
+    },
+    {
+      "id": "photo-1558769673-de478227d1f5",
+      "background": "#00B29D",
+      "foreground": "#FFFFFF"
+    }
+  ]
+}

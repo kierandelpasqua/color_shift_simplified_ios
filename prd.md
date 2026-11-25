@@ -241,13 +241,20 @@ Status: `[ ]` todo · `[x]` done · `[!]` blocked (see note) · `HUMAN` = owner 
   derives a pair that's ≥ 4.5:1 or reports a miss.
 
 #### T-016 · Web parity fixture for derived pairs
-- [ ] **Depends:** T-015 · **Refs:** ios.md §15
+- [!] **Depends:** T-015 · **Refs:** ios.md §15
 - **Do:** Run the web app locally (see the web repo's CLAUDE.md), and for each photo record the derived
   `--foreground`/`--background` into `ColorShiftTests/Fixtures/web-derived-pairs.json`.
 - **Verify:** UNIT: each iOS-derived color is within ΔE (or per-channel ±6) of the web value; failures
   listed by photo. If many fail, set `[!]` with the numbers rather than loosening the tolerance.
 
 ### Phase 2 — Canvas
+
+- **Blocked:** iOS vs web (Chrome 158, the web's own code on the web's AVIF images) per-channel Δ, max of bg/fg, in
+  catalog order: 11, 4, 7, 68, 14, 3, 4, 9, 1, 12, 2, 2 → 6 of 12 over ±6. A sweep of ImageIO thumbnail sizes
+  (full/512/256/128/64) × CG interpolation (none/low/medium), on both the bundled JPEGs and the web's own 1800px
+  images, never got below 4 failures (worst 69). Cause: the algorithm keeps the **single** most saturated of 128
+  pixels, so tiny resampling differences change which pixel wins (photo 3: iOS #4096B7 vs web #267A73). Fixture and
+  test are committed; the per-photo test is `.disabled` until the owner decides (no tolerance change).
 
 #### T-020 · `AppModel`
 - [x] **Depends:** T-011, T-012, T-013 · **Refs:** ios.md §5 State; PM §6
@@ -426,3 +433,4 @@ Append one line per iteration: `YYYY-MM-DD · T-0xx · done|blocked · one-line 
 - 2026-11-25 · H-06 · drafted · ColorShift/Resources/AppIcon.icon: three glass layers (body, bell, rim) from the jellyfish mark on a dark automatic gradient; ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon. actool compiles it; ictool renders Default/Dark/ClearLight/TintedDark (docs/screens/icon/h06-renditions.png); shows on the simulator home screen as "KDP Color". Owner polishes in Icon Composer, then ticks.
 - 2026-11-25 · T-014 · done · Aspects are bundled-file pixel ratios (e.g. 2400/1543); all stay in the web's layout buckets. Photo.photographerURL and Photo.unsplashURL carry utm_source=color_shift&utm_medium=referral. Tests: every photo is a bundle file ≥ 2000px long side (ImageIO properties only), aspect within 0.5%, credit present. 93 unit tests green.
 - 2026-11-25 · T-015 · done · PhotoSampler: ImageIO thumbnail (256px) → 32×32 sRGB premultipliedLast context → un-premultiply → every 8th pixel → most saturated (stable) → partner tuned to 4.5:1, with reachedTarget. Interpolation .medium, not .high: .high rings at edges and invents over-saturated samples (caught by the two-tone test). DerivedPairCache actor caches per photo. Expected synthetic pairs computed by the web's own JS in Node. All 12 photos derive a pair; 101 unit tests green.
+- 2026-11-25 · T-016 · blocked · Web pairs captured (ColorShiftTests/Fixtures/web-derived-pairs.json, headless Chrome via CDP, web code + web image URLs). 6/12 photos exceed ±6 per channel; no resampling variant gets below 4/12. Max-saturation pick is unstable across resamplers. Needs an owner decision.
