@@ -9,8 +9,9 @@ nonisolated enum AppConfig {
     /// TODO(H-03): the published web app's base URL, used for share links (ios.md §12).
     static let webBaseURL = URL(string: "https://example.com/")!
 
-    /// TODO(H-07): the hosted privacy policy URL.
-    static let privacyPolicyURL = URL(string: "https://example.com/privacy")!
+    /// Privacy policy (H-07): `docs/privacy-policy.md`, served by GitHub Pages from `main` → `/docs`.
+    /// TODO(H-07): live once Pages is enabled for the repo.
+    static let privacyPolicyURL = URL(string: "https://kierandelpasqua.github.io/color_shift_simplified_ios/privacy-policy.html")!
 
     /// Custom URL scheme for opening pairs in the app (ios.md §12). Registered in Info.plist.
     static let urlScheme = "colorshift"

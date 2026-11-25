@@ -46,7 +46,7 @@ iteration by hand with "Do the next prd.md task".
 | Bundle ID | `com.kierandelpasqua.colorshift` (tests: `.tests`, `.uitests`) | ios.md Q1, H-01 |
 | Developer Program | Not enrolled yet (H-02, later); EU DSA status: **non-trader** | ios.md Q2, H-02 |
 | Web base URL for share links | _TBD (H-03)_ | ios.md Q7 |
-| Privacy policy URL | _TBD (H-07)_ | ios.md Q15 |
+| Privacy policy URL | `https://kierandelpasqua.github.io/color_shift_simplified_ios/privacy-policy.html` (text: docs/privacy-policy.md; live once GitHub Pages serves `main` → `/docs`) | ios.md Q15, H-07 |
 | Deployment target | iOS 26.0, iPhone only, portrait, dark | ios.md I2, Q5, Q6 |
 | Toolchain | Xcode 27.2 (27B52), Swift 6 language mode, Default Actor Isolation = MainActor | ios.md §5 |
 | Simulators | iPhone 18 Pro (default), iPhone 17e (small), iPhone 18 Pro Max (large), iPhone Duo | `xcrun simctl list` |
@@ -422,3 +422,4 @@ Append one line per iteration: `YYYY-MM-DD · T-0xx · done|blocked · one-line 
 - 2026-11-24 · T-050 · done · PrivacyInfo.xcprivacy: no tracking, no tracking domains, no collected data; UserDefaults with CA92.1 (haptics preference). plutil lint OK; file present in the built .app; unit test parses the bundled manifest. No other required-reason APIs used (no file timestamps, uptime or disk space).
 - 2026-11-25 · H-01 · done (owner) · Name "KDP Color" (App Store and home-screen display name; in-app brand stays "Color Shift"); bundle ID com.kierandelpasqua.colorshift (+ .tests, .uitests) in project.yml and AppConfig. 89 unit tests green.
 - 2026-11-25 · H-05 · done (owner-approved download) · 12 JPEGs in ColorShift/Resources/Photos at 2400px long side (6.6 MB); docs/photo-sources.md table with photographers (from the web), review: portraits #4/#5 kept, minor signage in #2/#3 accepted. Photo page links optional; credits link to the photographer profile, as on the web.
+- 2026-11-25 · H-07 · drafted · docs/privacy-policy.md (no data collected; haptics setting on device only; no network). URL set in AppConfig. Owner still enables GitHub Pages (Settings → Pages → main, /docs) before ticking.
