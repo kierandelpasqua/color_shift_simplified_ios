@@ -10,7 +10,6 @@ nonisolated enum AppConfig {
     static let webBaseURL = URL(string: "https://example.com/")!
 
     /// Privacy policy (H-07): `docs/privacy-policy.md`, served by GitHub Pages from `main` → `/docs`.
-    /// TODO(H-07): live once Pages is enabled for the repo.
     static let privacyPolicyURL = URL(string: "https://kierandelpasqua.github.io/color_shift_simplified_ios/privacy-policy.html")!
 
     /// Custom URL scheme for opening pairs in the app (ios.md §12). Registered in Info.plist.

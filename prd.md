@@ -46,7 +46,7 @@ iteration by hand with "Do the next prd.md task".
 | Bundle ID | `com.kierandelpasqua.colorshift` (tests: `.tests`, `.uitests`) | ios.md Q1, H-01 |
 | Developer Program | Not enrolled yet (H-02, later); EU DSA status: **non-trader** | ios.md Q2, H-02 |
 | Web base URL for share links | _TBD (H-03)_ | ios.md Q7 |
-| Privacy policy URL | `https://kierandelpasqua.github.io/color_shift_simplified_ios/privacy-policy.html` (text: docs/privacy-policy.md; live once GitHub Pages serves `main` → `/docs`) | ios.md Q15, H-07 |
+| Privacy policy URL | `https://kierandelpasqua.github.io/color_shift_simplified_ios/privacy-policy.html` (text: docs/privacy-policy.md; GitHub Pages from `main` → `/docs`, live) | ios.md Q15, H-07 |
 | Deployment target | iOS 26.0, iPhone only, portrait, dark | ios.md I2, Q5, Q6 |
 | Toolchain | Xcode 27.2 (27B52), Swift 6 language mode, Default Actor Isolation = MainActor | ios.md §5 |
 | Simulators | iPhone 18 Pro (default), iPhone 17e (small), iPhone 18 Pro Max (large), iPhone Duo | `xcrun simctl list` |
@@ -380,7 +380,7 @@ Status: `[ ]` todo · `[x]` done · `[!]` blocked (see note) · `HUMAN` = owner 
 - [ ] Layered Icon Composer icon from the jellyfish mark (default, dark, tinted); add `AppIcon.icon`.
 
 #### H-07 · Privacy policy page `HUMAN`
-- [ ] Publish a "Color Shift collects no data" page; record the URL in §1. (The loop may draft the
+- [x] Publish a "Color Shift collects no data" page; record the URL in §1. (The loop may draft the
   text in `docs/privacy-policy.md`.)
 
 #### T-051 · Store metadata draft
@@ -442,3 +442,4 @@ Append one line per iteration: `YYYY-MM-DD · T-0xx · done|blocked · one-line 
 - 2026-11-25 · T-045 · done · AboutSheet (opened from the brand row, now a 44pt button "About Color Shift"): Haptics toggle (AppModel.hapticsEnabled saves on change), 12 photo credits linking to photographers with UTM + "All photos from Unsplash", Manrope and DM Mono OFL texts, privacy policy link (AppConfig), version. Credit rows use label colors (Link tint made .primary blue). UI: toggle + all 12 credits + links found; toggle persists across launches; OFL text opens. 29 UI, 104 unit green. docs/screens/t045-about-*.png.
 - 2026-11-25 · T-046 · done · SmokeTests (launch → tap → drawer → Abstract → break AA → Jump to AA → Copy link → toast). Full UI suite 30/30 on iPhone 17e, 18 Pro, 18 Pro Max, Duo; 104 unit; clean build-for-testing: 0 code warnings (fixed 61 MainActor warnings in UI-test helpers; SWIFT_TREAT_WARNINGS_AS_ERRORS now on both test targets). The sweep found and fixed: swipes starting on the credit chip didn't navigate (drag moved to the whole panel); canvas now above the deck in z-order (scrolled-out deck rows could catch touches at the edge); slider tap is a UIKit tap that fails on movement. Credit label 75% → 85% white for margin. Audit exemptions added with measurements: credit chip text (audit can't see the translucent blurred chip; measured #242124, text 12–14:1), selected theme chip (intermittent; fill ≥ #E4E4E1 vs #111214), and the contrast check on iPhone Duo only (it fails 100% white on the chip). Vertical-swipe slider test now drags by coordinates (XCUI's element swipeDown on a half-hidden adjustable slider changes it; a real drag from the same point doesn't). Screens: docs/screens/t046-smoke-*.png.
 - 2026-11-25 · T-051 · done · docs/store/metadata.md: name, subtitle, promo, description, keywords, support/privacy URLs, copyright, review notes, category, age-rating answers (incl. Shared Location and Dating descriptors), content rights, App Privacy, Accessibility Nutrition Labels (Voice Control not claimed: untested). Limits cited; docs/store/check-metadata.py passes (name 9, subtitle 30/30, promo 145/170, description 1436/4000, keywords 92/100 bytes, review 1045/4000 bytes).
+- 2026-11-25 · H-07 · done (owner asked Claude to enable Pages) · GitHub Pages on for main → /docs; https://kierandelpasqua.github.io/color_shift_simplified_ios/privacy-policy.html returns 200 with the policy.
