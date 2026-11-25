@@ -28,7 +28,8 @@ final class AppModel {
     var foreground: SRGB8
     var background: SRGB8
     var mode: ContrastMode = .wcag
-    var hapticsEnabled: Bool
+    /// Saved as soon as it changes (the About sheet's toggle; FR11 "toggle persists").
+    var hapticsEnabled: Bool { didSet { defaults.set(hapticsEnabled, forKey: Self.hapticsKey) } }
     /// True for 1.6 s after Copy link (web `copied`): the button says "Copied" and the toast shows.
     private(set) var linkCopied = false
     @ObservationIgnored private var copiedResetTask: Task<Void, Never>?
