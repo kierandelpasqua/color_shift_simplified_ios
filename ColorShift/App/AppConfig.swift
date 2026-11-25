@@ -3,8 +3,8 @@ import Foundation
 /// The single home for values that depend on owner decisions (prd.md §0 Rules).
 /// Each placeholder is marked with the HUMAN task that replaces it.
 nonisolated enum AppConfig {
-    /// TODO(H-01): replace with the real bundle ID (also `PRODUCT_BUNDLE_IDENTIFIER` in project.yml).
-    static let bundleID = "com.example.colorshift"
+    /// Bundle ID (H-01). Keep in sync with `PRODUCT_BUNDLE_IDENTIFIER` in project.yml.
+    static let bundleID = "com.kierandelpasqua.colorshift"
 
     /// TODO(H-03): the published web app's base URL, used for share links (ios.md §12).
     static let webBaseURL = URL(string: "https://example.com/")!

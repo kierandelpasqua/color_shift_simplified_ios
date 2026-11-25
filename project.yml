@@ -1,7 +1,7 @@
 name: ColorShift
 
 options:
-  bundleIdPrefix: com.example
+  bundleIdPrefix: com.kierandelpasqua
   deploymentTarget:
     iOS: "26.0"
   createIntermediateGroups: true
@@ -30,7 +30,7 @@ targets:
       base:
         TARGETED_DEVICE_FAMILY: "1"
         # Placeholder until H-01; keep in sync with AppConfig.bundleID.
-        PRODUCT_BUNDLE_IDENTIFIER: com.example.colorshift
+        PRODUCT_BUNDLE_IDENTIFIER: com.kierandelpasqua.colorshift
         PRODUCT_NAME: ColorShift
         SWIFT_TREAT_WARNINGS_AS_ERRORS: YES
         GCC_TREAT_WARNINGS_AS_ERRORS: YES
@@ -40,7 +40,7 @@ targets:
     info:
       path: ColorShift/Resources/Info.plist
       properties:
-        CFBundleDisplayName: Color Shift
+        CFBundleDisplayName: KDP Color
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         LSRequiresIPhoneOS: true
@@ -71,7 +71,7 @@ targets:
     settings:
       base:
         TARGETED_DEVICE_FAMILY: "1"
-        PRODUCT_BUNDLE_IDENTIFIER: com.example.colorshift.tests
+        PRODUCT_BUNDLE_IDENTIFIER: com.kierandelpasqua.colorshift.tests
         GENERATE_INFOPLIST_FILE: YES
         TEST_HOST: $(BUILT_PRODUCTS_DIR)/ColorShift.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ColorShift
         BUNDLE_LOADER: $(TEST_HOST)
@@ -86,7 +86,7 @@ targets:
     settings:
       base:
         TARGETED_DEVICE_FAMILY: "1"
-        PRODUCT_BUNDLE_IDENTIFIER: com.example.colorshift.uitests
+        PRODUCT_BUNDLE_IDENTIFIER: com.kierandelpasqua.colorshift.uitests
         GENERATE_INFOPLIST_FILE: YES
         TEST_TARGET_NAME: ColorShift
         # XCTestCase overrides are nonisolated; tests opt into @MainActor explicitly.

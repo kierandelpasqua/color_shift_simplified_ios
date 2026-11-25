@@ -42,8 +42,8 @@ iteration by hand with "Do the next prd.md task".
 
 | Fact | Value | Source |
 |---|---|---|
-| App name | _TBD (H-01)_; working name "Color Shift" | ios.md Q1 |
-| Bundle ID | _TBD (H-01)_; placeholder `com.example.colorshift` | ios.md Q1 |
+| App name | **KDP Color** (App Store and home screen); the in-app brand stays "Color Shift" | ios.md Q1, H-01 |
+| Bundle ID | `com.kierandelpasqua.colorshift` (tests: `.tests`, `.uitests`) | ios.md Q1, H-01 |
 | Web base URL for share links | _TBD (H-03)_ | ios.md Q7 |
 | Privacy policy URL | _TBD (H-07)_ | ios.md Q15 |
 | Deployment target | iOS 26.0, iPhone only, portrait, dark | ios.md I2, Q5, Q6 |
@@ -143,7 +143,7 @@ Status: `[ ]` todo · `[x]` done · `[!]` blocked (see note) · `HUMAN` = owner 
 ### Phase 0 — Setup
 
 #### H-01 · Choose the app name and bundle ID `HUMAN`
-- [ ] Check name availability in App Store Connect; record name and bundle ID in §1. (ios.md Q1)
+- [x] Check name availability in App Store Connect; record name and bundle ID in §1. (ios.md Q1)
 
 #### H-02 · Enroll in the Apple Developer Program `HUMAN`
 - [ ] Individual enrollment ($99/yr); decide EU DSA trader status. (ios.md Q2, research/app-store-release.md)
@@ -419,3 +419,4 @@ Append one line per iteration: `YYYY-MM-DD · T-0xx · done|blocked · one-line 
 - 2026-11-24 · T-042 · done · Photo Next/Previous custom actions; Jump announces "Contrast now N to 1, passes AA" (or can't-reach); sliders are adjustable elements (label with role, "87 percent", ±1) instead of a hidden Slider; HSL readout spoken. performAccessibilityAudit passes on the main screen and 3 drawer scroll positions. Fixes the audit drove: 11pt styles relativeTo .caption (caption2 = "partially unsupported"); muted/subtle/tick → #8E9097 because the glass deck renders at ~#15171A (token test now also checks deck text on glass); tick label 8pt below its line. Documented exemptions: fixed-size "Aa"; contrast of elements outside the visible deck; the unselected WCAG/APCA segment (audit compares two dark fills, 1.29:1; measured text 5.83:1 on its capsule). Full suites: 86 unit, 20 UI green.
 - 2026-11-24 · T-043 · done · Increase Contrast: secondary labels → #A9ABB1, chip/swap borders #6A6C73 at 1.5pt (≥ 3:1 on the glass). Bold Text: each style steps up one bundled weight (specimen → Manrope Bold); measured +21–22% text ink on DM Mono Regular labels, heaviest faces unchanged. Smart Invert: photo, specimen, swatches and slider tracks excluded (iOS doesn't invert dark-mode apps, so not visible in screenshots). Differentiate Without Color: ✓/✗ always on (screenshot identical to baseline by design). Reduce Transparency: system glass turns solid (mixer toggle). Screenshots for all six in docs/screens/a11y/ (simctl ui + com.apple.Accessibility defaults).
 - 2026-11-24 · T-050 · done · PrivacyInfo.xcprivacy: no tracking, no tracking domains, no collected data; UserDefaults with CA92.1 (haptics preference). plutil lint OK; file present in the built .app; unit test parses the bundled manifest. No other required-reason APIs used (no file timestamps, uptime or disk space).
+- 2026-11-25 · H-01 · done (owner) · Name "KDP Color" (App Store and home-screen display name; in-app brand stays "Color Shift"); bundle ID com.kierandelpasqua.colorshift (+ .tests, .uitests) in project.yml and AppConfig. 89 unit tests green.
