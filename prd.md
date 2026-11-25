@@ -391,7 +391,7 @@ Status: `[ ]` todo · `[x]` done · `[!]` blocked (see note) · `HUMAN` = owner 
 - **Verify:** Every field within Apple's character limits (cite them in the file).
 
 #### T-052 · Screenshots
-- [ ] **Depends:** T-046, H-06 · **Refs:** research/app-store-release.md
+- [x] **Depends:** T-046, H-06 · **Refs:** research/app-store-release.md
 - **Do:** UI-test-driven screenshots at the required and recommended iPhone sizes (and Duo when required),
   using real photo pairs, saved to `docs/store/screenshots/`.
 - **Verify:** Pixel sizes match Apple's current spec listed in the research file.
@@ -444,3 +444,4 @@ Append one line per iteration: `YYYY-MM-DD · T-0xx · done|blocked · one-line 
 - 2026-11-25 · T-051 · done · docs/store/metadata.md: name, subtitle, promo, description, keywords, support/privacy URLs, copyright, review notes, category, age-rating answers (incl. Shared Location and Dating descriptors), content rights, App Privacy, Accessibility Nutrition Labels (Voice Control not claimed: untested). Limits cited; docs/store/check-metadata.py passes (name 9, subtitle 30/30, promo 145/170, description 1436/4000, keywords 92/100 bytes, review 1045/4000 bytes).
 - 2026-11-25 · H-07 · done (owner asked Claude to enable Pages) · GitHub Pages on for main → /docs; https://kierandelpasqua.github.io/color_shift_simplified_ios/privacy-policy.html returns 200 with the policy.
 - 2026-11-25 · H-06 · done (owner approved the draft) · ColorShift/Resources/AppIcon.icon as drafted.
+- 2026-11-25 · T-052 · done · StoreScreenshots UI test: 5 shots (photo pair, controls, WCAG after Jump to AAA, APCA, theme filter) on iPhone 18 Pro 1206×2622 (required), 18 Pro Max 1320×2868 (recommended), Duo outer 1398×2034; all PNG without alpha, matching research §6.2. docs/store/screenshots/ (+ README). Duo inner display (2007×2853) not capturable from UI tests.
