@@ -11,6 +11,9 @@ struct RootView: View {
         GeometryReader { proxy in
             VStack(spacing: 0) {
                 canvas
+                    // Above the deck: clipping doesn't stop the deck's scrolled-out rows from catching touches,
+                    // so without this a touch just above the deck could move a hidden slider (T-046, Duo).
+                    .zIndex(1)
                 if model.controlsOpen {
                     ControlDeckView()
                         .frame(height: Self.deckHeight(in: proxy))

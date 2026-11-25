@@ -31,3 +31,17 @@ struct HorizontalPanGesture: UIGestureRecognizerRepresentable {
         }
     }
 }
+
+/// A tap that reports its x and, unlike SwiftUI's `onTapGesture`, fails once the finger moves (UIKit's
+/// allowable movement, about 10pt). Otherwise a vertical swipe that nothing else claims, such as one
+/// starting on a slider at the deck's top edge, would land as a tap and move the slider (T-046, Duo).
+struct TapLocationGesture: UIGestureRecognizerRepresentable {
+    /// Called with the tap's x in the view's local space.
+    let onTap: (CGFloat) -> Void
+
+    func makeUIGestureRecognizer(context: Context) -> UITapGestureRecognizer { UITapGestureRecognizer() }
+
+    func handleUIGestureRecognizerAction(_ recognizer: UITapGestureRecognizer, context: Context) {
+        if recognizer.state == .ended { onTap(context.converter.localLocation.x) }
+    }
+}

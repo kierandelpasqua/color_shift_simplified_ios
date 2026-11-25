@@ -1,7 +1,7 @@
 import XCTest
 
 final class ContrastTests: XCTestCase {
-    private func ratio(_ element: XCUIElement) -> Double {
+    @MainActor private func ratio(_ element: XCUIElement) -> Double {
         // Accessibility value "7.81 to 1".
         Double((element.value as? String ?? "").split(separator: " ").first ?? "") ?? -1
     }

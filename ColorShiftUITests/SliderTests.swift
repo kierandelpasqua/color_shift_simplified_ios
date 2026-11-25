@@ -31,8 +31,18 @@ final class SliderScrollTests: XCTestCase {
         let slider = app.descendants(matching: .any)["slider.Foreground lightness"]
         XCTAssertTrue(slider.waitForExistence(timeout: 5))
         let before = slider.value as? String
-        slider.swipeUp(velocity: .slow)
-        slider.swipeDown(velocity: .slow)
+        // Real touch drags from the visible part of the slider. (XCUI's element `swipeDown()` on a slider half
+        // scrolled under the deck's top edge, as on iPhone Duo, changes the value even though a touch drag
+        // from the same point doesn't, so drag by coordinates.)
+        let deck = app.descendants(matching: .any)["controlDeck"]
+        func dragVertically(by dy: CGFloat) {
+            let y = max(slider.frame.midY, deck.frame.minY + 12) - slider.frame.minY
+            let start = slider.coordinate(withNormalizedOffset: .zero).withOffset(CGVector(dx: slider.frame.width / 2, dy: y))
+            start.press(forDuration: 0.05, thenDragTo: start.withOffset(CGVector(dx: 0, dy: dy)),
+                        withVelocity: .slow, thenHoldForDuration: 0)
+        }
+        dragVertically(by: -250)
+        dragVertically(by: 250)
         XCTAssertEqual(app.buttons["colorField.Foreground"].value as? String, "#F4C6D9")
         XCTAssertEqual(slider.value as? String, before)
     }

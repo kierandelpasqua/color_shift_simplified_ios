@@ -2,7 +2,7 @@ import XCTest
 
 /// Captures the open deck at several text sizes, scrolled top to bottom (T-040). Screenshots are attachments.
 final class DynamicTypeScreenshots: XCTestCase {
-    private func capture(_ category: String, name: String) {
+    @MainActor private func capture(_ category: String, name: String) {
         let app = XCUIApplication()
         app.launchArguments += ["-openControlsOnLaunch", "YES", "-UIPreferredContentSizeCategoryName", category]
         app.launch()

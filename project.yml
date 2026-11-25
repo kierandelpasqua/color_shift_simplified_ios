@@ -76,6 +76,7 @@ targets:
         GENERATE_INFOPLIST_FILE: YES
         TEST_HOST: $(BUILT_PRODUCTS_DIR)/ColorShift.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ColorShift
         BUNDLE_LOADER: $(TEST_HOST)
+        SWIFT_TREAT_WARNINGS_AS_ERRORS: YES
 
   ColorShiftUITests:
     type: bundle.ui-testing
@@ -92,6 +93,7 @@ targets:
         TEST_TARGET_NAME: ColorShift
         # XCTestCase overrides are nonisolated; tests opt into @MainActor explicitly.
         SWIFT_DEFAULT_ACTOR_ISOLATION: nonisolated
+        SWIFT_TREAT_WARNINGS_AS_ERRORS: YES   # T-046: zero concurrency warnings in every target
 
 schemes:
   ColorShift:

@@ -387,7 +387,9 @@ exceeds 200% and qualifies for the Larger Text nutrition label. Numeric readouts
 (8.16:1). (Propose the same change to the web, Q13.)
 
 The photo credit's "Photo" label is 55% white on the 68% black chip: 3.43:1 when the chip sits over a white
-part of the photo. iOS uses **75% white** (4.85:1 worst case). Both are checked in `TokenContrastTests`.
+part of the photo. iOS uses **85% white** (75% computes to only 4.85:1, barely AA at 12pt). Both are checked in
+`TokenContrastTests`. Xcode's accessibility audit can't see the chip's translucent, blurred background (it even fails
+the 100% white name), so the audit exempts the chip's text; measured on device: chip #242124, text ~12–14:1.
 
 ---
 
@@ -497,7 +499,7 @@ optional). Don't fire them on every slider step.
 | `tuneToContrast` can silently miss | Return `(color, reachedTarget)`; show "Can't reach AAA with this hue" + warning haptic |
 | APCA approximation | Real APCA (§7) |
 | Muted text fails AA | New muted color (§8) |
-| Credit label fails AA over bright photos | 75% white instead of 55% (§8) |
+| Credit label fails AA over bright photos | 85% white instead of 55% (§8) |
 | Clipboard errors unhandled | N/A (`UIPasteboard` doesn't throw); toast always confirms |
 | Tiny type | New type scale (§8) |
 

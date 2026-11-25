@@ -82,7 +82,7 @@ private struct HSLSlider: View {
                 .contentShape(Rectangle())
                 // Horizontal pans drag the thumb; vertical swipes fall through to the deck's scroll view.
                 .gesture(HorizontalPanGesture { x in set(x: x, width: width) })
-                .onTapGesture(coordinateSpace: .local) { location in set(x: location.x, width: width) }
+                .gesture(TapLocationGesture { x in set(x: x, width: width) })
             }
             .frame(height: Tokens.Size.minHitTarget)
         }

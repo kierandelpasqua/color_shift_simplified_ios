@@ -25,9 +25,6 @@ struct PhotoPanelView: View {
                     image(size: proxy.size)
                 }
                 .buttonStyle(.plain)
-                // Wins over the button once the finger moves 10pt, so a swipe never also counts as a tap
-                // (the web's double advance, ios.md §14).
-                .highPriorityGesture(DragGesture(minimumDistance: 10).onEnded(swiped))
                 .accessibilityLabel(model.photo.alt)
                 .accessibilityHint("Double-tap for next photo")
                 .accessibilityValue(model.photo.id)
@@ -39,6 +36,10 @@ struct PhotoPanelView: View {
                 PhotoCredit(photo: model.photo)
                     .padding(Tokens.Spacing.creditInset)
             }
+            // On the whole panel, so swipes that start on the credit chip work too (on short panels the chip
+            // covers the middle). It wins over the button and the link once the finger moves 10pt, so a swipe
+            // never also counts as a tap (the web's double advance, ios.md §14).
+            .highPriorityGesture(DragGesture(minimumDistance: 10).onEnded(swiped))
             .task(id: LoadKey(id: model.photo.id, size: proxy.size)) { await load(size: proxy.size) }
         }
         .task(id: model.photo.id) { await derive() }

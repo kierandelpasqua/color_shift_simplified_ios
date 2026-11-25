@@ -51,8 +51,9 @@ nonisolated enum Tokens {
         static let tick = Swatch(rgb: 0x8E9097)              // AA/AAA tick labels (web #7F8187)
         static let toast = Swatch(rgb: 0xFFFFFF)
         static let creditName = Swatch(rgb: 0xFFFFFF)
-        /// iOS: web uses 55% white, which is 3.43:1 when the credit chip sits over a white photo; 75% is 4.85:1.
-        static let creditLabel = Swatch(rgb: 0xFFFFFF, opacity: 0.75)
+        /// iOS: web uses 55% white, which is 3.43:1 when the credit chip sits over a white photo. 75% computes to
+        /// 4.85:1, barely AA for 12pt text; iOS uses 85% for margin over bright photos.
+        static let creditLabel = Swatch(rgb: 0xFFFFFF, opacity: 0.85)
 
         /// The muted label color for the current contrast setting.
         static func muted(_ contrast: ColorSchemeContrast) -> Swatch {
