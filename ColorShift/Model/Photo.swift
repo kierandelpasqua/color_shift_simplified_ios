@@ -8,13 +8,27 @@ nonisolated struct Photo: Identifiable, Hashable, Sendable {
     let alt: String
     /// Hand-picked pair shown before the derived pair (PM §8.9).
     let fallback: ColorPair
-    /// Width / height. Hand-entered on the web; replaced by values measured from the bundled files (T-014).
+    /// Width / height, measured from the bundled file (T-014; the web hand-enters approximate values).
     let aspect: Double
     let photographer: String
     /// Unsplash username, without `@`.
     let handle: String
-    /// The photo's unsplash.com page. Unknown until H-05 maps each CDN name to its page.
+    /// The photo's unsplash.com page. Optional: credits link to the photographer's profile, as on the web.
     var unsplashPageURL: URL?
+
+    /// Unsplash attribution links (ios.md §13): the photographer's profile and Unsplash, both tagged with
+    /// the referral parameters Unsplash asks API-style apps to add.
+    var photographerURL: URL { Self.referral("https://unsplash.com/@\(handle)") }
+    static let unsplashURL = referral("https://unsplash.com/")
+
+    static let referralQuery = [URLQueryItem(name: "utm_source", value: "color_shift"),
+                                URLQueryItem(name: "utm_medium", value: "referral")]
+
+    private static func referral(_ string: String) -> URL {
+        var components = URLComponents(string: string)!
+        components.queryItems = referralQuery
+        return components.url!
+    }
 
     var fileName: String { "\(id).jpg" }
 

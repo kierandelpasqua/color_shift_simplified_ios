@@ -227,7 +227,7 @@ Status: `[ ]` todo · `[x]` done · `[!]` blocked (see note) · `HUMAN` = owner 
   (ios.md §13, §16; research/unsplash.md)
 
 #### T-014 · Photo credits and measured aspects
-- [ ] **Depends:** T-013, H-05 · **Refs:** ios.md §13
+- [x] **Depends:** T-013, H-05 · **Refs:** ios.md §13
 - **Do:** Fill photographer fields from `docs/photo-sources.md`; build credit URLs with
   `utm_source=color_shift&utm_medium=referral`; replace hand-entered aspects with ones measured from the
   bundled files (ImageIO, no full decode).
@@ -424,3 +424,4 @@ Append one line per iteration: `YYYY-MM-DD · T-0xx · done|blocked · one-line 
 - 2026-11-25 · H-05 · done (owner-approved download) · 12 JPEGs in ColorShift/Resources/Photos at 2400px long side (6.6 MB); docs/photo-sources.md table with photographers (from the web), review: portraits #4/#5 kept, minor signage in #2/#3 accepted. Photo page links optional; credits link to the photographer profile, as on the web.
 - 2026-11-25 · H-07 · drafted · docs/privacy-policy.md (no data collected; haptics setting on device only; no network). URL set in AppConfig. Owner still enables GitHub Pages (Settings → Pages → main, /docs) before ticking.
 - 2026-11-25 · H-06 · drafted · ColorShift/Resources/AppIcon.icon: three glass layers (body, bell, rim) from the jellyfish mark on a dark automatic gradient; ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon. actool compiles it; ictool renders Default/Dark/ClearLight/TintedDark (docs/screens/icon/h06-renditions.png); shows on the simulator home screen as "KDP Color". Owner polishes in Icon Composer, then ticks.
+- 2026-11-25 · T-014 · done · Aspects are bundled-file pixel ratios (e.g. 2400/1543); all stay in the web's layout buckets. Photo.photographerURL and Photo.unsplashURL carry utm_source=color_shift&utm_medium=referral. Tests: every photo is a bundle file ≥ 2000px long side (ImageIO properties only), aspect within 0.5%, credit present. 93 unit tests green.

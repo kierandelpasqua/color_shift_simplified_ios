@@ -1,4 +1,5 @@
 import Foundation
+import ImageIO
 import Testing
 @testable import ColorShift
 
@@ -58,5 +59,39 @@ struct PhotoCatalogTests {
     @Test func catalogIndexIsFullCatalogPosition() {
         let filtered = PhotoCatalog.visible(for: [.objects])
         #expect(PhotoCatalog.catalogIndex(of: filtered[1]) == 11)
+    }
+
+    // MARK: T-014: bundled files, credits, measured aspects
+
+    @Test(arguments: PhotoCatalog.all)
+    func bundledFileMatchesAspect(_ photo: Photo) throws {
+        let url = try #require(Bundle.main.url(forResource: photo.id, withExtension: "jpg"), "\(photo.fileName) missing")
+        let source = try #require(CGImageSourceCreateWithURL(url as CFURL, nil))
+        let props = try #require(CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as? [CFString: Any])
+        let width = try #require(props[kCGImagePropertyPixelWidth] as? Double)
+        let height = try #require(props[kCGImagePropertyPixelHeight] as? Double)
+        #expect(max(width, height) >= 2000, "\(photo.id) is only \(width)×\(height)")
+        let measured = width / height
+        #expect(abs(photo.aspect - measured) / measured < 0.005, "\(photo.id): \(photo.aspect) vs \(measured)")
+    }
+
+    @Test(arguments: PhotoCatalog.all)
+    func everyPhotoHasACredit(_ photo: Photo) {
+        #expect(!photo.photographer.isEmpty && !photo.handle.isEmpty && !photo.handle.hasPrefix("@"))
+        #expect(photo.photographerURL.absoluteString
+            == "https://unsplash.com/@\(photo.handle)?utm_source=color_shift&utm_medium=referral")
+    }
+
+    @Test func unsplashLinkHasReferral() {
+        #expect(Photo.unsplashURL.absoluteString == "https://unsplash.com/?utm_source=color_shift&utm_medium=referral")
+    }
+
+    @Test func measuredAspectsKeepWebLayoutBuckets() {
+        // Web hand-entered aspects, in catalog order; the mobile photo share must not change.
+        let web = [1.56, 0.67, 1.33, 0.67, 0.67, 0.67, 1.5, 0.67, 1.5, 0.67, 1.5, 0.67]
+        for (photo, webAspect) in zip(PhotoCatalog.all, web) {
+            #expect(ColorMath.layoutShares(aspect: photo.aspect).mobile == ColorMath.layoutShares(aspect: webAspect).mobile,
+                    "\(photo.id)")
+        }
     }
 }
